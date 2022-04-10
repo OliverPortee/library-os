@@ -13,7 +13,7 @@ int main()
 	screen.show(60, 0, '6', 0x0f);
 	screen.show(70, 0, '7', 0x0f);
 	screen.show(79, 0, 'e', 0x0f);
-	screen.show(0, 5, '0', 0x0f);
+	screen.show(0, 5, '5', 0x0f);
 	screen.show(0, 10, '1', 0x0f);
 	screen.show(0, 15, '5', 0x0f);
 	screen.show(0, 20, '2', 0x0f);
@@ -24,6 +24,8 @@ int main()
 	screen.getpos(x, y);
 	screen.show(0, 1, (char)x + '0', 0x0f);
 	screen.show(3, 1, (char)y + '0', 0x0f);
-	
+
+	screen.print("\n01234567890123456789012345678901234567890123456789012345678901234567890123456789\na", 83, 0x0f);
+
 	return 0;
 }
