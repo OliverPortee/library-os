@@ -15,19 +15,25 @@
 
 #include "machine/io_port.h"
 
-class CGA_Screen {
+class CGA_Screen
+{
 private:
-/* Add your code here */ 
+	IO_Port index_reg;
+	IO_Port data_reg;
 
 	CGA_Screen(const CGA_Screen &copy); // prevent copying
 public:
 	CGA_Screen()
-/* Add your code here */ 
-{}
+		: index_reg{0x3d4}, data_reg{0x3d5}
+	{
+	}
 
-/* Add your code here */ 
+	void show(int x, int y, char c, unsigned char attrib);
+
+	void setpos(int x, int y);
+	void getpos(int &x, int &y);
 };
 
-/* Add your code here */ 
+/* Add your code here */
 
 #endif
