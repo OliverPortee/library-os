@@ -19,3 +19,59 @@
 #include "object/o_stream.h"
 
 /* Add your code here */ 
+
+// characters
+O_Stream& O_Stream::operator<<(unsigned char c) {
+    put((char) c);
+    return *this;
+}	
+
+O_Stream& O_Stream::operator<<(char c) {
+    put(c);
+    return *this;
+}
+
+/*
+// numbers
+O_Stream& O_Stream::operator<<(unsigned short number) {
+
+}
+
+O_Stream& O_Stream::operator<<(short number) {
+
+}
+
+O_Stream& O_Stream::operator<<(unsigned int number) {
+
+}
+
+O_Stream& O_Stream::operator<<(int number) {
+
+}
+
+O_Stream& O_Stream::operator<<(unsigned long number) {
+
+}
+
+O_Stream& O_Stream::operator<<(long number) {
+
+}
+
+O_Stream& O_Stream::operator<<(void* pointer) {
+
+}
+
+// text is null terminated
+O_Stream& O_Stream::operator<<(char* text) {
+    char c = *text;
+    while(c != '\0') {
+        put(c);
+        text += 1;
+    }
+    return *this;
+}	
+
+O_Stream& O_Stream::operator<< (O_Stream& (*fkt) (O_Stream&)) {
+
+}
+*/

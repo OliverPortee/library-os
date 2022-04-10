@@ -17,7 +17,12 @@
 
 class CGA_Screen {
 private:
-/* Add your code here */ 
+/* Add your code here */
+	const int SIZE_X = 80;
+	const int SIZE_Y = 25;
+
+	int cursorPosX = 0;
+	int cursorPosY = 0;
 
 	CGA_Screen(const CGA_Screen &copy); // prevent copying
 public:
@@ -25,7 +30,11 @@ public:
 /* Add your code here */ 
 {}
 
-/* Add your code here */ 
+/* Add your code here */
+	void show(int x, int y, char c, unsigned char attrib);
+	void setpos(int x, int y);
+	void getpos(int& x, int& y);
+	void print(char* text, int length, unsigned char attrib);
 };
 
 /* Add your code here */ 

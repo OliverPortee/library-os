@@ -21,12 +21,31 @@
 
 #include "object/strbuf.h"
 
-class O_Stream
+class O_Stream : public Stringbuffer
 /* Add your code here */ 
 {
 private:
 	O_Stream(const O_Stream &copy); // prevent copying
+
 /* Add your code here */ 
+public:
+	O_Stream(){}
+
+	O_Stream& operator<<(unsigned char c);	// characters
+	O_Stream& operator<<(char c);
+
+	/*
+	O_Stream& operator<<(unsigned short number);	// numbers
+	O_Stream& operator<<(short number);
+	O_Stream& operator<<(unsigned int number);
+	O_Stream& operator<<(int number);
+	O_Stream& operator<<(unsigned long number);
+	O_Stream& operator<<(long number);
+
+	O_Stream& operator<<(void* pointer);
+	O_Stream& operator<<(char* text);	// text is null terminated
+	O_Stream& operator<< (O_Stream& (*fkt) (O_Stream&));
+	*/
 };
 
 /*---------------------------------------------------------------------------*/
@@ -43,7 +62,8 @@ private:
 /*---------------------------------------------------------------------------*/
 
 // ENDL: inserts a newline in the output and flushes the buffer
-/* Add your code here */ 
+/* Add your code here */
+
 
 // BIN: selects the binary number system
 /* Add your code here */ 

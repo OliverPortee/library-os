@@ -16,3 +16,19 @@
 #include "object/strbuf.h"
 
 /* Add your code here */ 
+/*
+Stringbuffer::Stringbuffer() {
+    next_free = 0;
+    buf[buf_size] = { 0 };  // initialize buffer to all zeroes
+}
+*/
+
+void Stringbuffer::put(char c) {
+    buf[next_free] = c;
+    next_free += 1;
+    
+    if (next_free == buf_size) {    // flush buffer if it is full
+        flush();
+        next_free = 0;
+    }
+}

@@ -16,11 +16,22 @@
 #ifndef __strbuf_include__
 #define __strbuf_include__
 
+const unsigned int buf_size = 80;
+
 class Stringbuffer {
 private:
 	Stringbuffer(const Stringbuffer &copy); // prevent copying
 
-/* Add your code here */ 
+/* Add your code here */
+protected:
+    unsigned int next_free = 0;
+    char buf[buf_size] = { 0 }; 
+
+public:
+	Stringbuffer(){}
+	
+	virtual void flush();
+	void put(char c);
 };
 
 #endif
