@@ -31,7 +31,6 @@ O_Stream& O_Stream::operator<<(char c) {
     return *this;
 }
 
-/*
 // numbers
 O_Stream& O_Stream::operator<<(unsigned short number) {
 
@@ -67,11 +66,23 @@ O_Stream& O_Stream::operator<<(char* text) {
     while(c != '\0') {
         put(c);
         text += 1;
+        c = *text;
     }
     return *this;
 }	
 
 O_Stream& O_Stream::operator<< (O_Stream& (*fkt) (O_Stream&)) {
-
+    fkt(*this);
+    return *this;
 }
-*/
+
+/*---------------------------------------------------------------------------*/
+/*                                                                           */
+/*                          M A N I P U L A T O R S                          */
+/*                                                                           */
+/*---------------------------------------------------------------------------*/
+
+O_Stream& endl (O_Stream& os) {
+    os.put('\n');
+    return os;
+}
