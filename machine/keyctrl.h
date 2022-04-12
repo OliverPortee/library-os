@@ -36,11 +36,6 @@ private:
 	};
 	enum { cpu_reset = 0xfe };
 
-	// LED names
-	struct led {
-		enum { caps_lock = 4, num_lock = 2, scroll_lock = 1 };
-	};
-
 	// possible answers of the keyboard
 	struct kbd_reply {
 		enum { ack = 0xfa };
@@ -67,6 +62,12 @@ private:
 	void get_ascii_code();
 
 public:
+	
+	// LED names
+	struct led {
+		enum { caps_lock = 4, num_lock = 2, scroll_lock = 1 };
+	};
+
 	// KEYBOARD_CONTROLLER: keyboard initialization: disables all LEDs and
 	//                      sets the repeat rate to maximum.
 	Keyboard_Controller();
