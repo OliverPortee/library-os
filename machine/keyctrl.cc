@@ -335,7 +335,8 @@ void Keyboard_Controller::set_led (char led, bool on)
 	do {
 		status = ctrl_port.inb();
 	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
-	data_port.outb((leds & ~led) | (on ? (0xff & led) : 0));
+	leds = (leds & ~led) | (on ? (0xff & led) : 0);
+	data_port.outb(leds);
 	do {
 		status = ctrl_port.inb();
 	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
