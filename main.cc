@@ -28,6 +28,12 @@ int main()
 			case '3':
 				ctrl.set_repeat_rate(5, 3);
 				break;
+			case '4':
+				ctrl.set_led(Keyboard_Controller::led::num_lock, true);
+				break;
+			case '5':
+				ctrl.set_led(Keyboard_Controller::led::num_lock, false);
+				break;
 			default:
 			screen.print(&c, 1, 0x0f);
 				break;
