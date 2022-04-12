@@ -22,7 +22,6 @@ class Stringbuffer {
 private:
 	Stringbuffer(const Stringbuffer &copy); // prevent copying
 
-/* Add your code here */
 protected:
     unsigned int next_free = 0;
     char buf[buf_size] = { 0 }; 

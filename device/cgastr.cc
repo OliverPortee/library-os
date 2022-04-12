@@ -13,7 +13,11 @@
 
 #include "device/cgastr.h"
 
-/* Add your code here */ 
+CGA_Stream::~CGA_Stream() {
+    flush();
+}
+
 void CGA_Stream::flush() {
-    print(&buf[0], next_free, 0x0f);
+    print(buf, next_free, 0x0f);
+    next_free = 0;
 }

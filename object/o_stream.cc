@@ -18,60 +18,123 @@
 
 #include "object/o_stream.h"
 
-/* Add your code here */ 
-
-// characters
-O_Stream& O_Stream::operator<<(unsigned char c) {
-    put((char) c);
+O_Stream &O_Stream::operator<<(unsigned char c)
+{
+    put((char)c);
     return *this;
-}	
+}
 
-O_Stream& O_Stream::operator<<(char c) {
+O_Stream &O_Stream::operator<<(char c)
+{
     put(c);
     return *this;
 }
 
-// numbers
-O_Stream& O_Stream::operator<<(unsigned short number) {
+const char *digits = "0123456789abcdef";
 
+template<class T>
+void format_natural_number(O_Stream& stream, T num, int base)
+{
+    // needs to fit 2^64 in binary plus null terminator
+    const unsigned int length = 66;
+    char buffer[length];
+    unsigned int i = length - 1;
+    buffer[i--] = '\0';
+    while (num > 0) {
+        buffer[i--] = digits[num % base];
+        num /= base;
+    }
+    stream << buffer + i + 1;
 }
 
-O_Stream& O_Stream::operator<<(short number) {
-
+template<class T>
+void format_negative_with_minus(O_Stream& stream, T num, int base) {
+    // needs to fit 2^64 in binary plus null terminator plus minus sign
+    const unsigned int length = 67;
+    char buffer[length];
+    unsigned int i = length - 1;
+    buffer[i--] = '\0';
+    while (num < 0) {
+        buffer[i--] = digits[-(num % base)];
+        num /= base;
+    }
+    buffer[i--] = '-';
+    stream << buffer + i + 1;
 }
 
-O_Stream& O_Stream::operator<<(unsigned int number) {
 
+template<class T, class Unsigned>
+void format(O_Stream& stream, T num, int base) {
+    if (num > 0) {
+        format_natural_number(stream, num, base);
+    } else if (num < 0) {
+        if (base == 10) {
+            format_negative_with_minus(stream, num, base);
+        } else {
+            Unsigned new_num = *reinterpret_cast<Unsigned*>(&num);
+            format_natural_number(stream, new_num, base);
+        }
+    } else {
+        stream << '0';
+    }
 }
 
-O_Stream& O_Stream::operator<<(int number) {
-
+O_Stream &O_Stream::operator<<(unsigned short number)
+{
+    format<unsigned short, unsigned short>(*this, number, base);
+    return *this;
 }
 
-O_Stream& O_Stream::operator<<(unsigned long number) {
-
+O_Stream &O_Stream::operator<<(short number)
+{
+    format<short, unsigned short>(*this, number, base);
+    return *this;
 }
 
-O_Stream& O_Stream::operator<<(long number) {
+O_Stream &O_Stream::operator<<(unsigned int number)
+{
+    format<unsigned int, unsigned int>(*this, number, base);
+    return *this;
+}
 
+O_Stream &O_Stream::operator<<(int number)
+{
+    format<int, unsigned int>(*this, number, base);
+    return *this;
+}
+
+O_Stream &O_Stream::operator<<(unsigned long number)
+{
+    format<unsigned long, unsigned long>(*this, number, base);
+    return *this;
+}
+
+O_Stream &O_Stream::operator<<(long number)
+{
+    format<long, unsigned long>(*this, number, base);
+    return *this;
 }
 
 O_Stream& O_Stream::operator<<(void* pointer) {
-
+    unsigned long num = *reinterpret_cast<unsigned long*>(&pointer);
+    format<unsigned long, unsigned long>(*this, num, 16);
+    return *this;
 }
 
-// text is null terminated
-O_Stream& O_Stream::operator<<(char* text) {
+O_Stream &O_Stream::operator<<(char *text)
+{
     char c = *text;
-    while(c != '\0') {
+    while (c != '\0')
+    {
         put(c);
         text += 1;
         c = *text;
     }
     return *this;
-}	
+}
 
-O_Stream& O_Stream::operator<< (O_Stream& (*fkt) (O_Stream&)) {
+O_Stream &O_Stream::operator<<(O_Stream &(*fkt)(O_Stream &))
+{
     fkt(*this);
     return *this;
 }
@@ -82,7 +145,9 @@ O_Stream& O_Stream::operator<< (O_Stream& (*fkt) (O_Stream&)) {
 /*                                                                           */
 /*---------------------------------------------------------------------------*/
 
-O_Stream& endl (O_Stream& os) {
+O_Stream &endl(O_Stream &os)
+{
     os.put('\n');
+    os.flush();
     return os;
 }
