@@ -14,8 +14,8 @@
 
 /* Add your code here */ 
 void CGA_Screen::show(int x, int y, char c, unsigned char attrib) {
-    char* CGA_START = (char *)0xb800;
-    char* pos = CGA_START + 2*(x + y*SIZE_Y);
+    char* CGA_START = (char *)0xb8000;
+    char* pos = CGA_START + 2*(x + y*SIZE_X);
     *pos = c;
     *(pos + 1) = attrib;
 }
