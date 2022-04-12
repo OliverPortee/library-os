@@ -30,7 +30,7 @@ protected:
 public:
 	Stringbuffer(){}
 	
-	virtual void flush();
+	virtual void flush()=0;
 	void put(char c);
 };
 

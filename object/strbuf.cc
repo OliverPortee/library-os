@@ -15,13 +15,7 @@
 
 #include "object/strbuf.h"
 
-/* Add your code here */ 
-/*
-Stringbuffer::Stringbuffer() {
-    next_free = 0;
-    buf[buf_size] = { 0 };  // initialize buffer to all zeroes
-}
-*/
+/* Add your code here */
 
 void Stringbuffer::put(char c) {
     buf[next_free] = c;

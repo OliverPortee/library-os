@@ -15,16 +15,5 @@
 
 /* Add your code here */ 
 void CGA_Stream::flush() {
-
-    char attrib = 0x0f;                 // defines fore- and background colour, 0x0f corresponds to white on black
-    char *pos = (char *)0xb8000;
-
-    for (unsigned int i = 0; i < next_free; i++)
-    {
-        *pos = buf[i];
-        *(pos + 1) = attrib;
-        pos += 2;
-    }
-    
-    next_free = 0;
+    print(&buf[0], next_free, 0x0f);
 }
