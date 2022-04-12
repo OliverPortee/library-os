@@ -15,28 +15,57 @@
 
 #include "machine/io_port.h"
 
-class CGA_Screen {
+class CGA_Screen
+{
 private:
-/* Add your code here */
-	const int SIZE_X = 80;
-	const int SIZE_Y = 25;
-
-	int cursorPosX = 0;
-	int cursorPosY = 0;
+	IO_Port index_reg;
+	IO_Port data_reg;
 
 	CGA_Screen(const CGA_Screen &copy); // prevent copying
+
+	/**
+	 * Read the character and the attribute
+	 * at position (x, y) in the text buffer.
+	 */
+	void read(int x, int y, char &c, unsigned char &attrib);
+
+	/**
+	 * Clear line y starting at position x.
+	 */
+	void clear_line(unsigned int x, unsigned int y);
+
+	/**
+	 * Shift the whole screen up by one line and clear the last line.
+	 */
+	void shiftup();
+
 public:
 	CGA_Screen()
-/* Add your code here */ 
-{}
+		: index_reg{0x3d4}, data_reg{0x3d5}
+	{
+	}
 
-/* Add your code here */
+	/**
+	 * Write char c into the text buffer at position (x, y)
+	 * with attribute attrib.
+	 */
 	void show(int x, int y, char c, unsigned char attrib);
-	void setpos(int x, int y);
-	void getpos(int& x, int& y);
-	void print(char* text, int length, unsigned char attrib);
-};
 
-/* Add your code here */ 
+	/**
+	 * Set the position of the cursor to (x, y).
+	 */
+	void setpos(int x, int y);
+
+	/**
+	 * Get the position of the cursor.
+	 */
+	void getpos(int &x, int &y);
+
+	/**
+	 * Print the first length chars of text
+	 * using the attribute attrib.
+	 */
+	void print(char *text, int length, unsigned char attrib);
+};
 
 #endif

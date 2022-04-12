@@ -1,3 +1,4 @@
 build/
 dep/
 isofiles/boot/system
+.vscode
