@@ -28,4 +28,6 @@ public:
 	void flush();
 };
 
+extern CGA_Stream kout;
+
 #endif

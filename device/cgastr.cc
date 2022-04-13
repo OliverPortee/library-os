@@ -21,3 +21,5 @@ void CGA_Stream::flush() {
     print(buf, next_free, 0x0f);
     next_free = 0;
 }
+
+CGA_Stream kout;
