@@ -135,8 +135,7 @@ O_Stream &O_Stream::operator<<(char *text)
 
 O_Stream& O_Stream::operator<<(O_Stream& (*fkt)(O_Stream&))
 {
-    fkt(*this);
-    return *this;
+    return fkt(*this);
 }
 
 /*---------------------------------------------------------------------------*/
@@ -154,16 +153,20 @@ O_Stream &endl(O_Stream &os)
 
 O_Stream& bin(O_Stream& os) {
     os.base = 2;
+    return os;
 }
 
 O_Stream& oct(O_Stream& os) {
     os.base = 8;
+    return os;
 }
 
 O_Stream& dec(O_Stream& os) {
     os.base = 10;
+    return os;
 }
 
 O_Stream& hex(O_Stream& os) {
     os.base = 16;
+    return os;
 }
