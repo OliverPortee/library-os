@@ -25,11 +25,15 @@ class O_Stream : public Stringbuffer
 {
 private:
 	O_Stream(const O_Stream &copy); // prevent copying
+
+	friend O_Stream& bin(O_Stream& os);
+	friend O_Stream& oct(O_Stream& os);
+	friend O_Stream& dec(O_Stream& os);
+	friend O_Stream& hex(O_Stream& os);
+	
+	unsigned int base = 10;
 public:
 	O_Stream(){}
-
-	// TODO: make private
-	unsigned int base = 10;
 
 	O_Stream& operator<<(unsigned char c);	// characters
 	O_Stream& operator<<(char c);
@@ -58,20 +62,14 @@ public:
 /* system.                                                                   */
 /*---------------------------------------------------------------------------*/
 
-// ENDL: inserts a newline in the output and flushes the buffer
-O_Stream& endl (O_Stream& os);
+O_Stream& endl(O_Stream& os);
 
+O_Stream& bin(O_Stream& os);
 
-// BIN: selects the binary number system
-/* Add your code here */ 
+O_Stream& oct(O_Stream& os);
 
-// OCT: selects the octal number system
-/* Add your code here */ 
+O_Stream& dec(O_Stream& os);
 
-// DEC: selects the decimal number system
-/* Add your code here */ 
-
-// HEX: selects the hexadecimal number system
-/* Add your code here */ 
+O_Stream& hex(O_Stream& os);
 
 #endif

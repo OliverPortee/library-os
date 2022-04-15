@@ -22,7 +22,7 @@ int main()
 	kout << "long: " << (long)  9223372036854775807 << endl;
 	kout << "unsigned long: " << (unsigned long) 18446744073709551615 << endl;
 
-	kout.base = 16;
+	kout << hex;
 
 	kout << 0 << endl;
 	kout << "short: " << (short) -32768 << endl;

@@ -133,7 +133,7 @@ O_Stream &O_Stream::operator<<(char *text)
     return *this;
 }
 
-O_Stream &O_Stream::operator<<(O_Stream &(*fkt)(O_Stream &))
+O_Stream& O_Stream::operator<<(O_Stream& (*fkt)(O_Stream&))
 {
     fkt(*this);
     return *this;
@@ -150,4 +150,20 @@ O_Stream &endl(O_Stream &os)
     os.put('\n');
     os.flush();
     return os;
+}
+
+O_Stream& bin(O_Stream& os) {
+    os.base = 2;
+}
+
+O_Stream& oct(O_Stream& os) {
+    os.base = 8;
+}
+
+O_Stream& dec(O_Stream& os) {
+    os.base = 10;
+}
+
+O_Stream& hex(O_Stream& os) {
+    os.base = 16;
 }
