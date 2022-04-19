@@ -240,13 +240,13 @@ Key Keyboard_Controller::key_hit ()
 	int status;
 	do {
 		status = ctrl_port.inb();
-	} while ((status & outb) == 0 || (status & auxb) != 0);
+	} while ((status & outb) == 0);
 	code = data_port.inb();
-	if (key_decoded()) {
-		return gather;
+	if ((status & auxb) != 0 || !key_decoded()) {
+		// if event is from mouse or key could not be decoded
+		return Key{}; // return invalid key
 	}
-	Key invalid;  // not explicitly initialized Key objects are invalid
-	return invalid;
+	return gather;
 }
 
 // REBOOT: Reboots the PC. Yes, in a PC the keyboard controller is
