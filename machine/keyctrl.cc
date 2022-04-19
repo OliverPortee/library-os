@@ -237,11 +237,15 @@ Keyboard_Controller::Keyboard_Controller() : ctrl_port(0x64), data_port(0x60)
 
 Key Keyboard_Controller::key_hit ()
 {
+	int status;
+	do {
+		status = ctrl_port.inb();
+	} while ((status & outb) == 0 || (status & auxb) != 0);
+	code = data_port.inb();
+	if (key_decoded()) {
+		return gather;
+	}
 	Key invalid;  // not explicitly initialized Key objects are invalid
-/* Add your code here */ 
-/* Add your code here */ 
- 
-/* Add your code here */ 
 	return invalid;
 }
 
@@ -265,6 +269,29 @@ void Keyboard_Controller::reboot()
 	ctrl_port.outb(cpu_reset); // reset
 }
 
+unsigned char map_speed(int speed) {
+
+	switch (speed) {
+	case 30:
+		return 0x00;
+	case 25:
+		return 0x02;
+	case 20:
+		return 0x04;
+	case 15:
+		return 0x08;
+	case 10:
+		return 0x0c;
+	case 7:
+		return 0x10;
+	case 5:
+		return 0x14;
+	default:
+	// TODO: Is that right? Case 31 for 2 characters per second?
+		return 0x00;
+	}
+}
+
 // SET_REPEAT_RATE: Function for setting the keyboard repeat rate. The
 //                  delay paraemter determines how long a key has to be
 //                  pressed until automatic repetition starts. Accepted
@@ -276,18 +303,42 @@ void Keyboard_Controller::reboot()
 
 void Keyboard_Controller::set_repeat_rate (int speed, int delay)
 {
-/* Add your code here */ 
- 
-/* Add your code here */ 
- 
+	if (delay > 3) {
+		delay = 3;
+	}
+	if (delay < 0) {
+		delay = 0;
+	}
+	int status;
+	do {
+		status = ctrl_port.inb();
+	} while ((status & inpb) != 0);
+	data_port.outb(kbd_cmd::set_speed);
+	do {
+		status = ctrl_port.inb();
+	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
+	data_port.outb(map_speed(speed) | (((unsigned char) delay) << 5));
+	// data_port.outb(0x74);
+	do {
+		status = ctrl_port.inb();
+	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
 }
 
 // SET_LED: sets or clears the specified LED
 
 void Keyboard_Controller::set_led (char led, bool on)
 {
-/* Add your code here */ 
- 
-/* Add your code here */ 
- 
+	int status;
+	do {
+		status = ctrl_port.inb();
+	} while ((status & inpb) != 0);
+	data_port.outb(kbd_cmd::set_led);
+	do {
+		status = ctrl_port.inb();
+	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
+	leds = (leds & ~led) | (on ? (0xff & led) : 0);
+	data_port.outb(leds);
+	do {
+		status = ctrl_port.inb();
+	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
 }
