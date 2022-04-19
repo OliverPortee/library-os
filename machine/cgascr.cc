@@ -36,10 +36,10 @@ void CGA_Screen::setpos(int x, int y)
         return;
     }
     const unsigned int pos = y * WIDTH + x;
-    index_reg.outw(CURSOR_HIGH);
-    data_reg.outw((pos & 0xff00) >> 8);
-    index_reg.outw(CURSOR_LOW);
-    data_reg.outw(pos & 0x00ff);
+    index_reg.outb(CURSOR_HIGH);
+    data_reg.outb((pos & 0xff00) >> 8);
+    index_reg.outb(CURSOR_LOW);
+    data_reg.outb(pos & 0x00ff);
 }
 
 void CGA_Screen::getpos(int &x, int &y)

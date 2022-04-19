@@ -123,12 +123,9 @@ O_Stream& O_Stream::operator<<(void* pointer) {
 
 O_Stream &O_Stream::operator<<(char *text)
 {
-    char c = *text;
-    while (c != '\0')
-    {
-        put(c);
-        text += 1;
-        c = *text;
+    char* pos = text;
+    while (*pos != '\0') {
+        put(*pos++);
     }
     return *this;
 }
