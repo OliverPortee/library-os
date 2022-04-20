@@ -7,6 +7,12 @@
 /*---------------------------------------------------------------------------*/
 /* Default interrupt handler.                                                */
 /*****************************************************************************/
-/* Add your code here */ 
-/* Add your code here */ 
- 
+
+#include "device/panic.h"
+#include "device/cgastr.h"
+#include "machine/cpu.h"
+
+void Panic::trigger() {
+    kout << "ERROR!" << endl;
+    cpu_idle();
+}

@@ -14,10 +14,16 @@
 
 #include "guard/gate.h"
 
+const unsigned int timer = 32;
+const unsigned int keyboard = 33;
+
 class Plugbox {
 private:
 	Plugbox(const Plugbox &copy); // prevent copying
-/* Add your code here */ 
+public:
+	Plugbox();
+	void assign(unsigned int slot, Gate& gate);
+	Gate& report(unsigned int slot);
 };
 
 #endif

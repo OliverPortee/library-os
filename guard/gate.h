@@ -11,6 +11,13 @@
 #ifndef __Gate_include__
 #define __Gate_include__
 
-/* Add your code here */ 
+class Gate {
+
+private:
+    Gate(const Gate &copy);
+public: 
+    Gate(){}
+    virtual void trigger()=0;
+};
 
 #endif
