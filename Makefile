@@ -57,11 +57,20 @@ CXX ?= g++
 CFLAGS := $(CFLAGS) -m64 -mno-red-zone -Wall -Wno-write-strings -fno-stack-protector -nostdlib -I. -g #-DDEBUG
 CXXFLAGS := $(CFLAGS) -Wno-non-virtual-dtor -fno-threadsafe-statics -fno-use-cxa-atexit -fno-rtti -fno-exceptions
 
+# enforce i386-pc grub variant also on EFI systems
+ifneq ($(wildcard /usr/lib/grub/i386-pc/.),)
+        MKRESCUE_OPTION ?= /usr/lib/grub/i386-pc
+else ifneq ($(wildcard /usr/share/grub2/i386-pc/.),)
+        MKRESCUE_OPTION ?= /usr/share/grub2/i386-pc
+else
+        MKRESCUE_OPTION ?=
+endif
+
 ifneq ($(shell which grub-mkrescue 2> /dev/null),)
-MKRESCUE = grub-mkrescue
+MKRESCUE = grub-mkrescue $(MKRESCUE_OPTION)
 endif
 ifneq ($(shell which grub2-mkrescue 2> /dev/null),)
-MKRESCUE = grub2-mkrescue
+MKRESCUE = grub2-mkrescue $(MKRESCUE_OPTION)
 endif
 
 # -------------------------------------------------------------------------
