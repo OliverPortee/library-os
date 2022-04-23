@@ -30,7 +30,7 @@ private:
 public:
 	PIC() : port1{0x21}, port2{0xa1}, disabled_interrupts{0xff} {}
 
-	enum {
+	enum devices {
 		timer = 0,
 		keyboard = 1
 	};

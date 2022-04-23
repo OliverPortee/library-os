@@ -121,9 +121,9 @@ O_Stream& O_Stream::operator<<(void* pointer) {
     return *this;
 }
 
-O_Stream &O_Stream::operator<<(char *text)
+O_Stream &O_Stream::operator<<(const char *text)
 {
-    char* pos = text;
+    const char* pos = text;
     while (*pos != '\0') {
         put(*pos++);
     }

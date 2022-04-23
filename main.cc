@@ -1,10 +1,10 @@
-#include "machine/pic.h"
 #include "machine/cpu.h"
+#include "device/keyboard.h"
 
 int main()
 {
 	cpu.enable_int();
-	pic.allow(PIC::keyboard);
+	keyboard.plugin();
 
 	while (true) {}
 

@@ -45,7 +45,7 @@ public:
 	O_Stream& operator<<(unsigned long number);
 	O_Stream& operator<<(long number);
 	O_Stream& operator<<(void* pointer);
-	O_Stream& operator<<(char* text);	// text is null terminated
+	O_Stream& operator<<(const char* text);	// text is null terminated
 	O_Stream& operator<< (O_Stream& (*fkt) (O_Stream&));	
 };
 

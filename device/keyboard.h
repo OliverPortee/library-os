@@ -15,21 +15,20 @@
 #include "guard/gate.h"
 #include "machine/key.h"
  
-class Keyboard
-/* Add your code here */ 
-{
+class Keyboard : public Gate {
 private:
 	Keyboard(const Keyboard &copy); // prevent copying
 /* Add your code here */ 
  
 public:
-/* Add your code here */ 
+	Keyboard();
  
 	// PLUGIN: "Plugs in" the keyboard (driver). From now on, keypresses are handled.
 	void plugin();
 
-/* Add your code here */ 
-
+	void trigger();
 };
+
+extern Keyboard keyboard;
 
 #endif
