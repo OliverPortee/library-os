@@ -17,13 +17,20 @@
 const unsigned int timer = 32;
 const unsigned int keyboard = 33;
 
+const unsigned int num_gates = 64;
+
 class Plugbox {
 private:
 	Plugbox(const Plugbox &copy); // prevent copying
+
+	Gate* gates[num_gates];
+
 public:
 	Plugbox();
 	void assign(unsigned int slot, Gate& gate);
 	Gate& report(unsigned int slot);
 };
+
+extern Plugbox plugbox;
 
 #endif

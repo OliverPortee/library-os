@@ -14,5 +14,7 @@
 
 void Panic::trigger() {
     kout << "ERROR!" << endl;
-    cpu.idle();
+    cpu.halt();
 }
+
+Panic panic{};

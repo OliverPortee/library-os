@@ -11,8 +11,6 @@
 #ifndef __panic_include__
 #define __panic_include__
 
-/* INCLUDES */
-
 #include "guard/gate.h"
 
 class Panic : public Gate
@@ -23,5 +21,7 @@ public:
 	Panic () {}
 	void trigger(); 
 };
+
+extern Panic panic;
 
 #endif
