@@ -16,12 +16,32 @@
 #ifndef __pic_include__
 #define __pic_include__
 
+#include "guard/gate.h"
+#include "machine/io_port.h"
+
 class PIC {
 private:
 	PIC(const PIC &copy); // prevent copying
+
+	IO_Port port1;
+	IO_Port port2;
+	unsigned char disabled_interrupts;
+
 public:
-	PIC() {}
-/* Add your code here */ 
+	PIC() : port1{0x21}, port2{0xa1}, disabled_interrupts{0xff} {}
+
+	enum {
+		timer = 0,
+		keyboard = 1
+	};
+
+	void allow(int interrupt_device);
+
+	void forbid(int interrupt_device);
+
+	bool is_masked(int interrupt_device);
 };
+
+extern PIC pic;
 
 #endif

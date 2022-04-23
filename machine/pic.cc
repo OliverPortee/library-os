@@ -13,4 +13,20 @@
 /* be controlled by using class CPU.                                         */
 /*****************************************************************************/
 
-/* Add your code here */ 
+#include "pic.h"
+
+void PIC::allow(int interrupt_device) {
+    disabled_interrupts = disabled_interrupts & ~(1 << interrupt_device);
+    port1.outb(disabled_interrupts);
+}
+
+void PIC::forbid(int interrupt_device) {
+    disabled_interrupts = disabled_interrupts | (1 << interrupt_device);
+    port1.outb(disabled_interrupts);
+}
+
+bool PIC::is_masked(int interrupt_device) {
+    return (disabled_interrupts & (1 << interrupt_device)) != 0;
+}
+
+PIC pic{};

@@ -17,7 +17,7 @@ private:
     Gate(const Gate &copy);
 public: 
     Gate(){}
-    virtual void trigger()=0;
+    virtual void trigger() = 0;
 };
 
 #endif
