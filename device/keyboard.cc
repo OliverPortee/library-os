@@ -13,7 +13,7 @@
 #include "machine/pic.h"
 #include "device/cgastr.h"
 
-Keyboard::Keyboard() {}
+Keyboard::Keyboard() : ctrl{} {}
 
 void Keyboard::plugin() {
     plugbox.assign(Plugbox::slots::keyboard, *this);
@@ -21,7 +21,10 @@ void Keyboard::plugin() {
 }
 
 void Keyboard::trigger() {
-    kout << "keyboard interrupt" << endl;
+    Key key = ctrl.key_hit();
+    if (key.valid()) {
+        kout << (char)key << flush;
+    }
 }
  
 Keyboard keyboard{};

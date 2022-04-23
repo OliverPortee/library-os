@@ -18,7 +18,8 @@
 class Keyboard : public Gate {
 private:
 	Keyboard(const Keyboard &copy); // prevent copying
-/* Add your code here */ 
+
+	Keyboard_Controller ctrl;
  
 public:
 	Keyboard();

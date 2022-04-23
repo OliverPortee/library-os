@@ -237,13 +237,13 @@ Keyboard_Controller::Keyboard_Controller() : ctrl_port(0x64), data_port(0x60)
 
 Key Keyboard_Controller::key_hit ()
 {
-	int status;
-	do {
-		status = ctrl_port.inb();
-	} while ((status & outb) == 0);
+	int status = ctrl_port.inb();
+	if ((status & outb) == 0 || (status & auxb) != 0) {
+		// if there is no output available or event comes from mouse
+		return Key{}; // return invalid key
+	}
 	code = data_port.inb();
-	if ((status & auxb) != 0 || !key_decoded()) {
-		// if event is from mouse or key could not be decoded
+	if (!key_decoded()) {
 		return Key{}; // return invalid key
 	}
 	return gather;

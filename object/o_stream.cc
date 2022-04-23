@@ -30,7 +30,7 @@ O_Stream &O_Stream::operator<<(char c)
     return *this;
 }
 
-const char *digits = "0123456789abcdef";
+const char * const digits = "0123456789abcdef";
 
 template<class T>
 void format_natural_number(O_Stream& stream, T num, int base)
@@ -144,6 +144,12 @@ O_Stream& O_Stream::operator<<(O_Stream& (*fkt)(O_Stream&))
 O_Stream &endl(O_Stream &os)
 {
     os.put('\n');
+    os.flush();
+    return os;
+}
+
+O_Stream &flush(O_Stream &os)
+{
     os.flush();
     return os;
 }
