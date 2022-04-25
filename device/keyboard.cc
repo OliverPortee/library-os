@@ -23,6 +23,10 @@ void Keyboard::plugin() {
 void Keyboard::trigger() {
     Key key = ctrl.key_hit();
     if (key.valid()) {
+        if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
+            ctrl.reboot();
+        } 
+        
         kout << (char)key << flush;
     }
 }

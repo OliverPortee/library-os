@@ -19,7 +19,8 @@ private:
 
 public:
 /* Add your code here */ 
- 
+	
+	Application() {};
 	void action ();
 };
 
