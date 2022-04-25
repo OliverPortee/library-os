@@ -23,19 +23,19 @@ extern CGA_Stream kout;
 void Application::action()
 {
 /* Add your code here */
-    CPU cpu{};
     int x, y;
     kout.getpos(x,y);
 
     while (true) {
+        cpu.disable_int();
+
         kout.setpos(x, y);
-        kout << "sampletext";
-        
-        /*
-        for (int i = 0; i < 40; i++)
-        {
-            kout.show(x+i, y, 'a', 0x0f);
-        }
-        */  
+        kout << "some longer sample text" 
+             << "     " 
+             << flush;
+
+        cpu.enable_int();
     }
 }
+
+Application app;
