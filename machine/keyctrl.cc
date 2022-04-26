@@ -11,6 +11,7 @@
 /* INCLUDES */
 
 #include "machine/keyctrl.h"
+#include "machine/pic.h"
  
 /* STATIC MEMBERS */
 
@@ -309,6 +310,10 @@ void Keyboard_Controller::set_repeat_rate (int speed, int delay)
 	if (delay < 0) {
 		delay = 0;
 	}
+	bool keyb_interrupts_masked = pic.is_masked(PIC::devices::keyboard);
+	if (!keyb_interrupts_masked) {
+		pic.forbid(PIC::devices::keyboard);
+	}
 	int status;
 	do {
 		status = ctrl_port.inb();
@@ -321,12 +326,19 @@ void Keyboard_Controller::set_repeat_rate (int speed, int delay)
 	do {
 		status = ctrl_port.inb();
 	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
+	if (!keyb_interrupts_masked) {
+		pic.allow(PIC::devices::keyboard);
+	}
 }
 
 // SET_LED: sets or clears the specified LED
 
 void Keyboard_Controller::set_led (char led, bool on)
 {
+	bool keyb_interrupts_masked = pic.is_masked(PIC::devices::keyboard);
+	if (!keyb_interrupts_masked) {
+		pic.forbid(PIC::devices::keyboard);
+	}
 	int status;
 	do {
 		status = ctrl_port.inb();
@@ -340,4 +352,7 @@ void Keyboard_Controller::set_led (char led, bool on)
 	do {
 		status = ctrl_port.inb();
 	} while ((status & outb) == 0 || data_port.inb() != kbd_reply::ack);
+	if (!keyb_interrupts_masked) {
+		pic.allow(PIC::devices::keyboard);
+	}
 }
