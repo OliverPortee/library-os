@@ -11,6 +11,7 @@
 /*****************************************************************************/
 
 #include "machine/cgascr.h"
+#include "machine/cpu.h"
 
 char *const CGA_START = (char *)0xb8000;
 const int WIDTH = 80;
@@ -89,8 +90,14 @@ void CGA_Screen::print(char *text, int length, unsigned char attrib)
     {
         return;
     }
+
     int curx, cury;
+    
+    // disable interrupts just before printing starts to keep the duration 
+    // during which interrupts are ignored as short as possible
+    // cpu.disable_int();
     getpos(curx, cury);
+
     for (int i = 0; i < length; ++i)
     {
         if (text[i] == '\n')
@@ -120,4 +127,5 @@ void CGA_Screen::print(char *text, int length, unsigned char attrib)
         }
     }
     setpos(curx, cury);
+    // cpu.enable_int();
 }

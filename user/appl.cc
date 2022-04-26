@@ -14,6 +14,7 @@
 #include "device/cgastr.h"
 /* Add your code here */ 
 #include "machine/cpu.h"
+#include "machine/pic.h"
 
 /* GLOBAL VARIABLES */
 
@@ -28,12 +29,14 @@ void Application::action()
 
     while (true) {
         cpu.disable_int();
+        //pic.forbid(PIC::devices::keyboard);
 
         kout.setpos(x, y);
         kout << "some longer sample text" 
              << "     " 
              << flush;
 
+        //pic.allow(PIC::devices::keyboard);
         cpu.enable_int();
     }
 }
