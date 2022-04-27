@@ -28,16 +28,13 @@ void Application::action()
     kout.getpos(x,y);
 
     while (true) {
-        cpu.disable_int();
-        //pic.forbid(PIC::devices::keyboard);
+        //cpu.disable_int();
 
         kout.setpos(x, y);
-        kout << "some longer sample text" 
-             << "     " 
+        kout << "some longer sample text" << endl
              << flush;
 
-        //pic.allow(PIC::devices::keyboard);
-        cpu.enable_int();
+        //cpu.enable_int();
     }
 }
 
