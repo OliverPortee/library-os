@@ -11,7 +11,6 @@
 /*****************************************************************************/
 
 #include "machine/cgascr.h"
-#include "machine/cpu.h"
 
 char *const CGA_START = (char *)0xb8000;
 const int WIDTH = 80;
@@ -38,23 +37,18 @@ void CGA_Screen::setpos(int x, int y)
     }
     const unsigned int pos = y * WIDTH + x;
     
-    cpu.disable_int();
     index_reg.outb(CURSOR_HIGH);
     data_reg.outb((pos & 0xff00) >> 8);
     index_reg.outb(CURSOR_LOW);
     data_reg.outb(pos & 0x00ff);
-    cpu.enable_int();
 }
 
 void CGA_Screen::getpos(int &x, int &y)
 {
     index_reg.outb(CURSOR_HIGH);
-
-    cpu.disable_int();
     const unsigned int high = data_reg.inb();
     index_reg.outb(CURSOR_LOW);
     const unsigned int low = data_reg.inb();
-    cpu.enable_int();
 
     const unsigned int pos = (high << 8) | low;
     x = pos % WIDTH;
@@ -100,9 +94,6 @@ void CGA_Screen::print(char *text, int length, unsigned char attrib)
 
     int curx, cury;
     
-    // disable interrupts just before printing starts to keep the duration 
-    // during which interrupts are ignored as short as possible
-    cpu.disable_int();
     getpos(curx, cury);
 
     for (int i = 0; i < length; ++i)
@@ -134,5 +125,4 @@ void CGA_Screen::print(char *text, int length, unsigned char attrib)
         }
     }
     setpos(curx, cury);
-    cpu.enable_int();
 }

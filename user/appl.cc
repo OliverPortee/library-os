@@ -14,7 +14,6 @@
 #include "device/cgastr.h"
 /* Add your code here */ 
 #include "machine/cpu.h"
-#include "machine/pic.h"
 
 /* GLOBAL VARIABLES */
 
@@ -28,13 +27,10 @@ void Application::action()
     kout.getpos(x,y);
 
     while (true) {
-        //cpu.disable_int();
-
+        cpu.disable_int();
         kout.setpos(x, y);
-        kout << "some longer sample text" << endl
-             << flush;
-
-        //cpu.enable_int();
+        kout << "some longer sample text" << endl;
+        cpu.enable_int();
     }
 }
 
