@@ -9,26 +9,35 @@
 /*****************************************************************************/
 
 #include "keyboard.h"
-#include "machine/plugbox.h"
-#include "machine/pic.h"
-#include "device/cgastr.h"
 
-Keyboard::Keyboard() : ctrl{} {}
+#include "device/cgastr.h"
+#include "machine/pic.h"
+#include "machine/plugbox.h"
+
+Keyboard::Keyboard() : ctrl{}, character{-1} {}
 
 void Keyboard::plugin() {
     plugbox.assign(Plugbox::slots::keyboard, *this);
     pic.allow(PIC::devices::keyboard);
 }
 
-void Keyboard::prologue() {
+bool Keyboard::prologue() {
     Key key = ctrl.key_hit();
     if (key.valid()) {
         if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
             ctrl.reboot();
-        } 
-        
-        kout << (char)key << flush;
+        }
+        character = (char)key;
+        return true;
+    } else {
+        character = -1;
     }
+    return false;
 }
- 
+
+void Keyboard::epilogue() {
+    kout << character << flush;
+    character = -1;
+}
+
 Keyboard keyboard{};

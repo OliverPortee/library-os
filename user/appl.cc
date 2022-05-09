@@ -12,7 +12,7 @@
 
 #include "user/appl.h"
 #include "device/cgastr.h"
-/* Add your code here */ 
+#include "guard/secure.h"
 #include "machine/cpu.h"
 
 /* GLOBAL VARIABLES */
@@ -27,6 +27,7 @@ void Application::action()
     kout.getpos(x,y);
 
     while (true) {
+        Secure secure;
         kout.setpos(x, y);
         kout << "some longer sample text" << endl;
     }

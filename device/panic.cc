@@ -12,9 +12,10 @@
 #include "device/cgastr.h"
 #include "machine/cpu.h"
 
-void Panic::prologue() {
+bool Panic::prologue() {
     kout << "ERROR!" << endl;
     cpu.halt();
+    return false;
 }
 
 Panic panic{};

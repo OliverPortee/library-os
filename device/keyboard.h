@@ -20,6 +20,8 @@ private:
 	Keyboard(const Keyboard &copy); // prevent copying
 
 	Keyboard_Controller ctrl;
+
+	char character;
  
 public:
 	Keyboard();
@@ -27,7 +29,8 @@ public:
 	// PLUGIN: "Plugs in" the keyboard (driver). From now on, keypresses are handled.
 	void plugin();
 
-	void prologue();
+	bool prologue();
+	void epilogue();
 };
 
 extern Keyboard keyboard;

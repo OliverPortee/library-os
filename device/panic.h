@@ -19,7 +19,7 @@ private:
 	Panic (const Panic &copy); // prevent copying
 public:
 	Panic () {}
-	void prologue(); 
+	bool prologue(); 
 };
 
 extern Panic panic;
