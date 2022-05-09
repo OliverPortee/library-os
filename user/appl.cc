@@ -27,10 +27,8 @@ void Application::action()
     kout.getpos(x,y);
 
     while (true) {
-        cpu.disable_int();
         kout.setpos(x, y);
         kout << "some longer sample text" << endl;
-        cpu.enable_int();
     }
 }
 
