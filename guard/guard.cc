@@ -10,4 +10,33 @@
 /* synchronization takes place along the prologue/epilogue model.            */
 /*****************************************************************************/
 
-/* Add your code here */ 
+#include "guard.h"
+#include "machine/cpu.h"
+
+void Guard::leave() {
+    Chain* chain;
+    cpu.disable_int();
+    while (chain = queue.dequeue()) {
+        Gate* gate = static_cast<Gate*>(chain);
+        gate->queue(false);
+        cpu.enable_int();
+        gate->epilogue();
+        cpu.disable_int();
+    }
+    cpu.enable_int();
+}
+
+void Guard::relay(Gate* item) {
+    if (!item->queued()) {
+        if (avail()) {
+            item->epilogue();
+        } else {
+            cpu.disable_int();
+            item->queue(true);
+            queue.enqueue(item);
+            cpu.enable_int();
+        }
+    }
+}
+
+Guard guard{};

@@ -10,16 +10,21 @@
 /*****************************************************************************/
 
 /* INCLUDES */
+#include "guard/guard.h"
 #include "machine/plugbox.h"
 
 /* FUNCTIONS */
 
-extern "C" void guardian (unsigned int slot);
+extern "C" void guardian(unsigned int slot);
 
 /* GUARDIAN: Low-level interrupt handling. We will extend this function at */
 /*           a later point in time.                                        */
 
-void guardian (unsigned int slot)
-{
-    plugbox.report(slot).trigger();
+void guardian(unsigned int slot) {
+    Gate& gate = plugbox.report(slot);
+    bool runEpilogue = gate.prologue();
+    cpu.enable_int();
+    if (runEpilogue) {
+        guard.relay(&gate);
+    }
 }
