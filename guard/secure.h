@@ -17,9 +17,6 @@
 
 #include "guard/guard.h"
 
-extern Guard guard;
-
-/* Add your code here */ 
 class Secure {
 public:
     inline Secure(){
@@ -29,7 +26,7 @@ public:
 
     inline ~Secure(){
         // leave critical section
-        guard.retne();
+        guard.leave();
     }   
 };
 #endif

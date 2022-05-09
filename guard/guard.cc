@@ -23,6 +23,7 @@ void Guard::leave() {
         gate->epilogue();
         cpu.disable_int();
     }
+    retne();
     cpu.enable_int();
 }
 
