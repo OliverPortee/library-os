@@ -12,7 +12,7 @@
 #include "device/cgastr.h"
 #include "machine/cpu.h"
 
-void Panic::trigger() {
+void Panic::prologue() {
     kout << "ERROR!" << endl;
     cpu.halt();
 }

@@ -20,7 +20,7 @@ void Keyboard::plugin() {
     pic.allow(PIC::devices::keyboard);
 }
 
-void Keyboard::trigger() {
+void Keyboard::prologue() {
     Key key = ctrl.key_hit();
     if (key.valid()) {
         if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {

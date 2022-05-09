@@ -27,7 +27,7 @@ public:
 	// PLUGIN: "Plugs in" the keyboard (driver). From now on, keypresses are handled.
 	void plugin();
 
-	void trigger();
+	void prologue();
 };
 
 extern Keyboard keyboard;
