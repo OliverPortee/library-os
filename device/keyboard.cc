@@ -36,6 +36,7 @@ bool Keyboard::prologue() {
 }
 
 void Keyboard::epilogue() {
+    // TODO: are these two lines save since they are not atomic?
     kout << character << flush;
     character = -1;
 }

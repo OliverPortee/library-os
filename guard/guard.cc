@@ -21,6 +21,7 @@ void Guard::leave() {
         gate->queue(false);
         cpu.enable_int();
         gate->epilogue();
+        // TODO: interrupt??
         cpu.disable_int();
     }
     retne();
@@ -28,7 +29,7 @@ void Guard::leave() {
 }
 
 void Guard::relay(Gate* item) {
-    if (!item->queued()) {
+    if (!item->queued()) { // TODO: order of if statements
         if (avail()) {
             item->epilogue();
         } else {
