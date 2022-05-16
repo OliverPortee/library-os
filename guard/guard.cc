@@ -11,12 +11,15 @@
 /*****************************************************************************/
 
 #include "guard.h"
+
+#include "guard/secure.h"
 #include "machine/cpu.h"
 
 void Guard::leave() {
     Chain* chain;
     cpu.disable_int();
     while ((chain = queue.dequeue())) {
+        Secure secure;
         Gate* gate = static_cast<Gate*>(chain);
         gate->queue(false);
         cpu.enable_int();
@@ -30,9 +33,10 @@ void Guard::leave() {
 void Guard::relay(Gate* item) {
     if (!item->queued()) {
         if (avail()) {
+            Secure secure;
+            cpu.enable_int();
             item->epilogue();
         } else {
-            cpu.disable_int();
             item->queue(true);
             queue.enqueue(item);
             cpu.enable_int();
