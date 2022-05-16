@@ -19,7 +19,6 @@ void Guard::leave() {
     Chain* chain;
     cpu.disable_int();
     while ((chain = queue.dequeue())) {
-        Secure secure;
         Gate* gate = static_cast<Gate*>(chain);
         gate->queue(false);
         cpu.enable_int();
