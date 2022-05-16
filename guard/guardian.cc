@@ -23,8 +23,8 @@ extern "C" void guardian(unsigned int slot);
 void guardian(unsigned int slot) {
     Gate& gate = plugbox.report(slot);
     bool runEpilogue = gate.prologue();
-    cpu.enable_int(); // TODO: probably wrong position (with that we're going back to level 0); --> relay?
     if (runEpilogue) {
         guard.relay(&gate);
     }
+    cpu.enable_int();
 }
