@@ -25,6 +25,14 @@
 
 toc_go:
 ; Add your code here 
+mov rbx, [rdi + rbx_offset]
+mov r12, [rdi + r12_offset]
+mov r13, [rdi + r13_offset]
+mov r14, [rdi + r14_offset]
+mov r15, [rdi + r15_offset]
+mov rbp, [rdi + rbp_offset]
+mov rsp, [rdi + rsp_offset]
+; optional load extended cpu state
 
 ; TOC_SWITCH: Context switch. Saves the current register values and replaces
 ;             them with values of the new "thread of control".
@@ -33,4 +41,4 @@ toc_go:
 ;                               struct toc* reg_then);
 
 toc_switch:
-; Add your code here 
+; Add your code here
