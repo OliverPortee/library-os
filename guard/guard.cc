@@ -38,7 +38,6 @@ void Guard::relay(Gate* item) {
         } else {
             item->queue(true);
             queue.enqueue(item);
-            cpu.enable_int();
         }
     }
 }
