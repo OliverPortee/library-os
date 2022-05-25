@@ -18,5 +18,22 @@ void toc_settle(struct toc *regs, void *tos,
 				void *),
 		void *object)
 {
-/* Add your code here */ 
+/* Add your code here */
+	void **p = (void **)tos;
+	
+	// push 'object' as parameter for 'kickoff()'
+	p -= 1;
+	*p = object;
+
+	// push NULL return address for 'kickoff()' as no actual caller exists
+	p -= 1;
+	*p = 0;
+
+	// push 'kickoff()' address 
+	p -= 1;
+	*p = kickoff;
+
+	// update stack pointer in 'toc',
+	// other register values are irrelevant for first activation
+	regs->rsp = *p;
 }
