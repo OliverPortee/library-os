@@ -15,15 +15,21 @@
 #ifndef __dispatch_include__
 #define __dispatch_include__
 
-/* Add your code here */ 
+#include "thread/coroutine.h"
 
 class Dispatcher {
 private:
 	Dispatcher(const Dispatcher &copy); // prevent copying
-/* Add your code here */ 
 
-// cast from chain to entrant to coroutine
-// call resume
+	Coroutine* active_coroutine{};
+public:
+	Dispatcher();
+
+	void go(Coroutine& first);
+
+	void dispatch(Coroutine& next);
+
+	Coroutine* active() const;
 };
 
 #endif
