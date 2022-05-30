@@ -34,5 +34,5 @@ void toc_settle(struct toc *regs, void *tos,
 
 	// update stack pointer in 'toc',
 	// other register values are irrelevant for first activation
-	regs->rsp = *p;
+	regs->rsp = p;
 }
