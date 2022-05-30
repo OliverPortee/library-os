@@ -20,6 +20,8 @@ class Scheduler
 private:
 	Scheduler (const Scheduler &copy); // prevent copying
 /* Add your code here */ 
+
+// kill should work if a thread kills itself
  
 };
 

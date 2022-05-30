@@ -1,15 +1,16 @@
 #include "machine/cpu.h"
 #include "device/keyboard.h"
 #include "user/appl.h"
-
-extern Application app;
+#include "device/cgastr.h"
 
 int main()
 {
 	cpu.enable_int();
 	keyboard.plugin();
 
-	app.action();
+	kout << "main" << endl;
+
+	app.go();
 
 	return 0;
 }

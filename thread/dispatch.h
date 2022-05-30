@@ -21,6 +21,9 @@ class Dispatcher {
 private:
 	Dispatcher(const Dispatcher &copy); // prevent copying
 /* Add your code here */ 
+
+// cast from chain to entrant to coroutine
+// call resume
 };
 
 #endif

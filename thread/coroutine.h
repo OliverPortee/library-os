@@ -22,7 +22,16 @@
 class Coroutine {
 private:
 	Coroutine(const Coroutine &copy); // prevent copying
-/* Add your code here */ 
+
+	toc _toc{};
+public:
+	Coroutine(void* tos);
+
+	void go();
+
+	void resume(Coroutine& next);
+
+	virtual void action() = 0;
 };
 
 #endif

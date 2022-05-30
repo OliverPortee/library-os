@@ -11,17 +11,17 @@
 #ifndef __application_include__
 #define __application_include__
 
-class Application
- 
-{
-private:
-	Application (const Application &copy); // prevent copying
+#include "thread/coroutine.h"
 
-public:
-/* Add your code here */ 
-	
-	Application() {};
-	void action ();
+class Application : public Coroutine {
+   private:
+    Application(const Application& copy);  // prevent copying
+
+   public:
+    Application(void* tos);
+    void action();
 };
+
+extern Application app;
 
 #endif

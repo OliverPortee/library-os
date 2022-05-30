@@ -14,7 +14,7 @@
 /* Add your code here */ 
 
 class Entrant
-/* Add your code here */ 
+/* Add your code here – inherit from Chain*/ 
 {
 private:
 	Entrant(const Entrant &copy); // prevent copying

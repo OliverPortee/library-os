@@ -11,26 +11,20 @@
 /* INCLUDES */
 
 #include "user/appl.h"
+
 #include "device/cgastr.h"
 #include "guard/secure.h"
 #include "machine/cpu.h"
+#include "device/cgastr.h"
+#include "user/task1.h"
 
-/* GLOBAL VARIABLES */
+char app_stack[65536];
 
-extern CGA_Stream kout;
-/* Add your code here */ 
- 
-void Application::action()
-{
-/* Add your code here */
-    int x, y;
-    kout.getpos(x,y);
+Application::Application(void* tos) : Coroutine{tos} {}
 
-    while (true) {
-        Secure secure;
-        kout.setpos(x, y);
-        kout << "some longer sample text" << endl;
-    }
+void Application::action() {
+    kout << "application" << endl;
+    resume(task1);
 }
 
-Application app;
+Application app{app_stack + sizeof(app_stack)};

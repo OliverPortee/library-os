@@ -18,9 +18,8 @@ void toc_settle(struct toc *regs, void *tos,
 				void *),
 		void *object)
 {
-/* Add your code here */
-	void **p = (void **)tos;
-	
+	void** p = (void**) tos;
+
 	// push 'object' as parameter for 'kickoff()'
 	p -= 1;
 	*p = object;
