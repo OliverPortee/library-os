@@ -31,6 +31,7 @@ mov r14, [rdi + r14_offset]
 mov r15, [rdi + r15_offset]
 mov rbp, [rdi + rbp_offset]
 mov rsp, [rdi + rsp_offset]
+ret
 ; optional: load extended cpu state
 
 ; TOC_SWITCH: Context switch. Saves the current register values and replaces
@@ -57,3 +58,4 @@ mov r15, [rsi + r15_offset]
 mov rbp, [rsi + rbp_offset]
 mov rsp, [rsi + rsp_offset]
 ; optional: restore simd registers
+ret
