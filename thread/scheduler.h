@@ -11,18 +11,28 @@
 #ifndef __schedule_include__
 #define __schedule_include__
 
+#include "object/queue.h"
 #include "thread/dispatch.h"
-/* Add your code here */ 
+#include "thread/entrant.h"
 
-class Scheduler
-/* Add your code here */ 
-{
-private:
-	Scheduler (const Scheduler &copy); // prevent copying
-/* Add your code here */ 
+class Scheduler : public Dispatcher {
+   private:
+    Scheduler(const Scheduler& copy);  // prevent copying
 
-// kill should work if a thread kills itself
- 
+    Queue queue{};  // of Entrants
+
+   public:
+    Scheduler();
+
+    void ready(Entrant& that);
+
+    void schedule();
+
+    void exit();
+
+    void kill(Entrant& that);
+
+    void resume();
 };
 
 #endif

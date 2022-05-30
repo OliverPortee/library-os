@@ -15,10 +15,12 @@
 #include "thread/dispatch.h"
 #include "machine/cpu.h"
 #include "device/cgastr.h"
+#include "guard/secure.h"
 
 Dispatcher::Dispatcher() {}
 
 void Dispatcher::go(Coroutine& first) {
+    Secure secure; // TODO: necessary?
     if (active_coroutine != nullptr) {
         kout << "called Dispatcher.go twice" << endl;
         cpu.halt();
@@ -28,6 +30,7 @@ void Dispatcher::go(Coroutine& first) {
 }
 
 void Dispatcher::dispatch(Coroutine& next) {
+    Secure secure; // TODO: necessary?
     if (active_coroutine == nullptr) {
         kout << "called Dispatcher.dispatch with no previous coroutine" << endl;
         cpu.halt();
