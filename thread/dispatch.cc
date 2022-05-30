@@ -20,17 +20,15 @@
 Dispatcher::Dispatcher() {}
 
 void Dispatcher::go(Coroutine& first) {
-    Secure secure; // TODO: necessary?
     if (active_coroutine != nullptr) {
         kout << "called Dispatcher.go twice" << endl;
         cpu.halt();
     }
     active_coroutine = &first;
-    first.go();
+    active_coroutine->go();
 }
 
 void Dispatcher::dispatch(Coroutine& next) {
-    Secure secure; // TODO: necessary?
     if (active_coroutine == nullptr) {
         kout << "called Dispatcher.dispatch with no previous coroutine" << endl;
         cpu.halt();
@@ -43,3 +41,5 @@ void Dispatcher::dispatch(Coroutine& next) {
 Coroutine* Dispatcher::active() const {
     return active_coroutine;
 }
+
+Dispatcher dispatcher{};

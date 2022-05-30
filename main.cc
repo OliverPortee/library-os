@@ -2,6 +2,7 @@
 #include "device/keyboard.h"
 #include "user/appl.h"
 #include "device/cgastr.h"
+#include "thread/dispatch.h"
 
 int main()
 {
@@ -10,7 +11,7 @@ int main()
 
 	kout << "main" << endl;
 
-	app.go();
+	dispatcher.go(app);
 
 	return 0;
 }
