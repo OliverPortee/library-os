@@ -21,6 +21,7 @@ void Scheduler::ready(Entrant& that) {
 void Scheduler::schedule() {
     // TODO: Secure?
     Chain* chain = queue.dequeue();
+    if (chain == nullptr) cpu.halt();       // halt machine if no more tasks to schedule
     Entrant* e = static_cast<Entrant*>(chain);
     Coroutine* coroutine = static_cast<Coroutine*>(e);
 
@@ -42,8 +43,7 @@ void Scheduler::kill(Entrant& that) {
         exit();
     } else {
         Secure secure;
-        kout << "kill other task";
-        //queue.remove(chainp);
+        queue.remove(chainp);
     }
 }
 

@@ -11,8 +11,7 @@ void Task2::action() {
     int i = 0;
 
     while (true) {
-        kout << "task 2" << endl;
-        i += 1;
+        kout << "task 2: " << i++ << endl;
 
         // kill task 1 after printing 5 times
         if (i == 5) {
@@ -24,6 +23,7 @@ void Task2::action() {
             scheduler.resume();
         } else {
             scheduler.kill(task2);
+            scheduler.resume();
         }
     }
 }
