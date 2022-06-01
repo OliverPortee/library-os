@@ -42,7 +42,8 @@ void Scheduler::kill(Entrant& that) {
         exit();
     } else {
         Secure secure;
-        queue.remove(chainp);
+        kout << "kill other task";
+        //queue.remove(chainp);
     }
 }
 
