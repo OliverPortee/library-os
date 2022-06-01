@@ -18,14 +18,12 @@
 #include "device/cgastr.h"
 #include "user/task1.h"
 #include "thread/dispatch.h"
+#include "thread/entrant.h"
 
 char app_stack[65536];
 
-Application::Application(void* tos) : Coroutine{tos} {}
+Application::Application(void* tos) : Entrant{tos} {}
 
 void Application::action() {
     kout << "application" << endl;
-    dispatcher.dispatch(task1);
 }
-
-Application app{app_stack + sizeof(app_stack)};

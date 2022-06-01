@@ -2,7 +2,12 @@
 #include "device/keyboard.h"
 #include "user/appl.h"
 #include "device/cgastr.h"
+#include "thread/scheduler.h"
 #include "thread/dispatch.h"
+#include "user/task1.h"
+#include "user/task2.h"
+
+
 
 int main()
 {
@@ -11,7 +16,9 @@ int main()
 
 	kout << "main" << endl;
 
-	dispatcher.go(app);
+	scheduler.ready(task2);
+	scheduler.ready(task1);
+	scheduler.schedule();
 
 	return 0;
 }

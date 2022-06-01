@@ -23,7 +23,12 @@ void Scheduler::schedule() {
     Chain* chain = queue.dequeue();
     Entrant* e = static_cast<Entrant*>(chain);
     Coroutine* coroutine = static_cast<Coroutine*>(e);
-    dispatch(*coroutine);
+
+    if(active() == nullptr) {
+        go(*coroutine);
+    } else {
+        dispatch(*coroutine);
+    }
 }
 
 void Scheduler::exit() {
@@ -46,3 +51,5 @@ void Scheduler::resume() {
     }
     schedule();
 }
+
+Scheduler scheduler;

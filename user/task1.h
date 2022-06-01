@@ -3,9 +3,9 @@
 #define __TASK1_H__
 
 #include "device/cgastr.h"
-#include "thread/coroutine.h"
+#include "user/appl.h"
 
-class Task1 : public Coroutine {
+class Task1 : public Application {
    public:
     Task1();
 
