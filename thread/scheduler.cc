@@ -38,8 +38,12 @@ void Scheduler::exit() {
 void Scheduler::kill(Entrant& that) {
     Chain* chainp = static_cast<Chain*>(&that); // is &that correct?
     
-    Secure secure;
-    queue.remove(chainp);
+    if (active() == &that) {
+        exit();
+    } else {
+        Secure secure;
+        queue.remove(chainp);
+    }
 }
 
 void Scheduler::resume() {

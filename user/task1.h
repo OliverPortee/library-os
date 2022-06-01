@@ -5,7 +5,7 @@
 #include "device/cgastr.h"
 #include "user/appl.h"
 
-class Task1 : public Application {
+class Task1 : public Entrant {
    public:
     Task1();
 

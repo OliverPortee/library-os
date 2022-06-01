@@ -4,7 +4,7 @@
 
 char stack1[65536];
 
-Task1::Task1() : Application{stack1 + sizeof(stack1)} {}
+Task1::Task1() : Entrant{stack1 + sizeof(stack1)} {}
 
 void Task1::action() {
     while (true) {

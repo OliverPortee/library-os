@@ -21,7 +21,6 @@ extern "C" void guardian(unsigned int slot);
 /*           a later point in time.                                        */
 
 void guardian(unsigned int slot) {
-    kout << slot << endl;
     Gate& gate = plugbox.report(slot);
     bool runEpilogue = gate.prologue();
     if (runEpilogue) {

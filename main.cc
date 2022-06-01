@@ -16,8 +16,8 @@ int main()
 
 	kout << "main" << endl;
 
-	scheduler.ready(task2);
 	scheduler.ready(task1);
+	scheduler.ready(task2);
 	scheduler.schedule();
 
 	return 0;
