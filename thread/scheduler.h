@@ -35,6 +35,4 @@ class Scheduler : public Dispatcher {
     void resume();
 };
 
-extern Scheduler scheduler;
-
 #endif

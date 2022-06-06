@@ -11,16 +11,21 @@
 #ifndef __guarded_scheduler_include__
 #define __guarded_scheduler_include__
 
-/* Add your code here */ 
+#include "thread/scheduler.h"
+#include "syscall/thread.h"
 
-class Guarded_Scheduler
-/* Add your code here */ 
-{
-private:
-	Guarded_Scheduler(const Guarded_Scheduler &copy); // prevent copying
-public:
-	Guarded_Scheduler () {}
-/* Add your code here */ 
+class Guarded_Scheduler : public Scheduler {
+   private:
+    Guarded_Scheduler(const Guarded_Scheduler &copy);  // prevent copying
+   public:
+    Guarded_Scheduler() = default;
+    
+	void ready(Thread& that);
+	void exit();
+	void kill(Thread& that);
+	void resume();
 };
+
+extern Guarded_Scheduler scheduler;
 
 #endif

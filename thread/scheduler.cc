@@ -52,5 +52,3 @@ void Scheduler::resume() {
     }
     schedule();
 }
-
-Scheduler scheduler;

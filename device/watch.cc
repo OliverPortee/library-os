@@ -13,7 +13,7 @@
 #include "machine/plugbox.h"
 #include "machine/pic.h"
 #include "device/cgastr.h"
-#include "thread/scheduler.h"
+#include "syscall/guarded_scheduler.h"
 
 Watch::Watch(int us) : PIT(us) {}
 
@@ -27,7 +27,7 @@ bool Watch::prologue() {
 }
 
 void Watch::epilogue() {
-    scheduler.resume();
+    scheduler.Scheduler::resume();
 }
 
 Watch watch{static_cast<int>(0.838*65536)};
