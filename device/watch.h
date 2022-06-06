@@ -22,7 +22,7 @@ private:
 	Watch(const Watch &copy); // prevent copying
 public:
 	// WATCH: Timer initialization, see PIT.
-	Watch(int us) : PIT(us) {}
+	Watch(int us);
 
 	// WINDUP: "Winds up" the clock. To do this, the watch object must register
 	//         with the Plugbox plugbox and allow the interrupts of the timer
@@ -35,5 +35,7 @@ public:
 	// EPILOGUE: This method triggers the process switch.
 	void epilogue();
 };
+
+extern Watch watch;
 
 #endif
