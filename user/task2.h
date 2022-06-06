@@ -7,7 +7,6 @@
 class Task2 : public Thread {
    public:
     Task2();
-
     void action();
 };
 

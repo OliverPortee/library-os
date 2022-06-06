@@ -18,7 +18,7 @@ class Application : public Thread {
     Application(const Application& copy);  // prevent copying
 
    public:
-    Application(void* tos);
+    Application();
     void action();
 };
 

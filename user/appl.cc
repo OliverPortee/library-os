@@ -12,10 +12,18 @@
 
 #include "user/appl.h"
 
-#include "device/cgastr.h"
+#include "syscall/guarded_scheduler.h"
+#include "user/task1.h"
+#include "user/task2.h"
 
 char app_stack[65536];
 
-Application::Application(void* tos) : Thread{tos} {}
+Application::Application() : Thread{app_stack + sizeof(app_stack)} {}
 
-void Application::action() { kout << "application" << endl; }
+void Application::action() {
+    scheduler.ready(task1);
+    scheduler.ready(task2);
+    scheduler.exit();
+}
+
+Application app{};
