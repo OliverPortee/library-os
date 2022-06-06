@@ -23,7 +23,6 @@ Application::Application() : Thread{app_stack + sizeof(app_stack)} {}
 void Application::action() {
     scheduler.ready(task1);
     scheduler.ready(task2);
-    scheduler.exit();
 }
 
 Application app{};

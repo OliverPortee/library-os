@@ -18,14 +18,14 @@
 #include "thread/coroutine.h"
 #include "guard/guard.h"
 #include "object/assert.h"
+#include "syscall/guarded_scheduler.h"
 
 void kickoff(void* dummy1, void* dummy2, void* dummy3, void* dummy4,
              void* dummy5, void* dummy6, Coroutine* object) {
     assert(guard.empty(), "kickoff: guard is not empty");
     guard.retne();
     object->action();
-    while (true) {
-    }
+    scheduler.exit();
 }
 
 #endif
