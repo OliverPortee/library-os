@@ -9,12 +9,10 @@
 /*****************************************************************************/
 
 #include "device/panic.h"
-#include "device/cgastr.h"
-#include "machine/cpu.h"
+#include "object/assert.h"
 
 bool Panic::prologue() {
-    kout << "ERROR!" << endl;
-    cpu.halt();
+    assert(false, "Panic::prologue() called");
     return false;
 }
 

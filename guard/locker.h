@@ -16,6 +16,7 @@
 
 #include "machine/cpu.h"
 #include "device/cgastr.h"
+#include "object/assert.h"
 
 extern CPU cpu;
 extern CGA_Stream kout;
@@ -24,29 +25,19 @@ class Locker {
 private:
 	Locker(const Locker &copy); // prevent copying
 	bool available;
-/* Add your code here */ 
+
 public: 
 	Locker() {
 		available = true;
 	}
 
 	inline void enter() {
-		if (!available) {
-			// print error and halt
-			kout << "ERROR: multiple calls to 'enter()'!" << flush;
-			cpu.halt();
-		}
-
+		assert(available, "ERROR: multiple calls to enter()");
 		available = false;
 	}
 
 	inline void retne() {
-		if (available) {
-			// print error and halt
-			kout << "ERROR: multiple calls to 'retne()'!" << flush;
-			cpu.halt();
-		}
-
+		assert(!available, "ERROR: multiple calls to retne()");
 		available = true;
 	}
 
