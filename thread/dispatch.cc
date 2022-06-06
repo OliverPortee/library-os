@@ -13,33 +13,26 @@
 /*****************************************************************************/
 
 #include "thread/dispatch.h"
-#include "machine/cpu.h"
-#include "device/cgastr.h"
+
 #include "guard/secure.h"
+#include "object/assert.h"
 
 Dispatcher::Dispatcher() {}
 
 void Dispatcher::go(Coroutine& first) {
-    if (active_coroutine != nullptr) {
-        kout << "called Dispatcher.go twice" << endl;
-        cpu.halt();
-    }
+    assert(active_coroutine == nullptr, "called Dispatcher.go twice");
     active_coroutine = &first;
     active_coroutine->go();
 }
 
 void Dispatcher::dispatch(Coroutine& next) {
-    if (active_coroutine == nullptr) {
-        kout << "called Dispatcher.dispatch with no previous coroutine" << endl;
-        cpu.halt();
-    }
+    assert(active_coroutine != nullptr,
+           "called Dispatcher.dispatch with no previous coroutine");
     Coroutine* tmp = active_coroutine;
     active_coroutine = &next;
     tmp->resume(next);
 }
 
-Coroutine* Dispatcher::active() const {
-    return active_coroutine;
-}
+Coroutine* Dispatcher::active() const { return active_coroutine; }
 
 Dispatcher dispatcher{};
