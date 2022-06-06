@@ -13,17 +13,9 @@
 #include "user/appl.h"
 
 #include "device/cgastr.h"
-#include "guard/secure.h"
-#include "machine/cpu.h"
-#include "device/cgastr.h"
-#include "user/task1.h"
-#include "thread/dispatch.h"
-#include "thread/entrant.h"
 
 char app_stack[65536];
 
-Application::Application(void* tos) : Entrant{tos} {}
+Application::Application(void* tos) : Thread{tos} {}
 
-void Application::action() {
-    kout << "application" << endl;
-}
+void Application::action() { kout << "application" << endl; }

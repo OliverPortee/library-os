@@ -2,10 +2,9 @@
 #ifndef __TASK1_H__
 #define __TASK1_H__
 
-#include "device/cgastr.h"
-#include "user/appl.h"
+#include "syscall/thread.h"
 
-class Task1 : public Entrant {
+class Task1 : public Thread {
    public:
     Task1();
 
