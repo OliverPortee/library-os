@@ -238,16 +238,22 @@ Keyboard_Controller::Keyboard_Controller() : ctrl_port(0x64), data_port(0x60)
 
 Key Keyboard_Controller::key_hit ()
 {
+	bool decoded = false;
 	int status = ctrl_port.inb();
-	if ((status & outb) == 0 || (status & auxb) != 0) {
-		// if there is no output available or event comes from mouse
-		return Key{}; // return invalid key
+
+	while ((status & outb) != 0) // while there is some output in the buffer of the keyboard controller 
+	{
+		// discard output if event comes from mouse
+		if ((status & auxb) != 0) data_port.inb();	
+
+		code = data_port.inb();
+		decoded = key_decoded();
+		
+		status = ctrl_port.inb();
 	}
-	code = data_port.inb();
-	if (!key_decoded()) {
-		return Key{}; // return invalid key
-	}
-	return gather;
+
+	if (decoded) return gather;
+	else return Key{};
 }
 
 // REBOOT: Reboots the PC. Yes, in a PC the keyboard controller is
