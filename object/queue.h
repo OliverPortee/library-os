@@ -33,6 +33,7 @@ public:
 	void enqueue(Chain *item);
 	Chain *dequeue();
 	void remove(Chain *);
+	bool empty() const;
 };
 
 #endif

@@ -18,6 +18,7 @@
 void Guard::leave() {
     Chain* chain;
     cpu.disable_int();
+    // TODO: run watch epilogue last?!
     while ((chain = queue.dequeue())) {
         Gate* gate = static_cast<Gate*>(chain);
         gate->queue(false);
@@ -40,6 +41,10 @@ void Guard::relay(Gate* item) {
             queue.enqueue(item);
         }
     }
+}
+
+bool Guard::empty() const {
+    return queue.empty();
 }
 
 Guard guard{};

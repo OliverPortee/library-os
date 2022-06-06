@@ -76,3 +76,7 @@ void Queue::remove(Chain *item)
 		}
 	}
 }
+
+bool Queue::empty() const {
+	return head == nullptr;
+}
