@@ -216,6 +216,16 @@ clear_bss:
 	call   setup_cursor
 
 	fninit         ; activate FPU
+
+	; init SSE
+	;mov rax, cr0
+	;and rax, ~(1 << 2)	;clear coprocessor emulation CR0.EM
+	;or rax, 1 << 1		;set coprocessor monitoring  CR0.MP
+	;mov cr0, rax
+	;mov rax, cr4
+	;or rax, 3 << 9		;set CR4.OSFXSR and CR4.OSXMMEXCPT at the same time
+	;mov cr4, rax
+
 	call   _init   ; call constructors of global objects
 	call   main    ; call the OS kernel's C / C++ part
 	call   _fini   ; call destructors
