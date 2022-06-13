@@ -43,8 +43,4 @@ void Guard::relay(Gate* item) {
     }
 }
 
-bool Guard::empty() const {
-    return queue.empty();
-}
-
 Guard guard{};

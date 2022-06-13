@@ -28,7 +28,6 @@ public:
 
 	void leave();
 	void relay(Gate* item);
-	bool empty() const;
 };
 
 extern Guard guard;

@@ -11,6 +11,7 @@
 #include "thread/scheduler.h"
 
 #include "guard/secure.h"
+#include "device/cgastr.h"
 
 Scheduler::Scheduler() {}
 
@@ -20,6 +21,7 @@ void Scheduler::schedule() {
     Chain* chain = queue.dequeue();
     if (chain == nullptr) {
         // halt machine if no more tasks to schedule
+        kout << "no more tasks to schedule" << endl;
         cpu.halt();
     }
     Entrant* e = static_cast<Entrant*>(chain);
