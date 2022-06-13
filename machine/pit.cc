@@ -25,7 +25,6 @@ void PIT::interval(int us) {
     const unsigned char ctrl_byte = 0b00110100;
     port.outb(ctrl_byte);
     port.outb(counter & 0xff); // lower order
-    // TODO: doesn't work in qemu
-    port.outb(counter & 0xff00); // higher order
+    port.outb(counter >> 8); // higher order
     this->us = us;
 }
