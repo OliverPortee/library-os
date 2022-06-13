@@ -13,6 +13,9 @@
 #include "device/cgastr.h"
 #include "machine/pic.h"
 #include "machine/plugbox.h"
+#include "syscall/guarded_scheduler.h"
+#include "user/task1.h"
+#include "user/task2.h"
 
 Keyboard::Keyboard() : ctrl{}, character{-1} {}
 
@@ -28,10 +31,14 @@ bool Keyboard::prologue() {
             ctrl.reboot();
         }
         character = (char)key;
+        if (character == '1') {
+            scheduler.Scheduler::kill(task1);
+        } else if (character == '2') {
+            scheduler.Scheduler::kill(task2);
+        }
         return true;
-    } else {
-        character = -1;
     }
+    character = -1;
     return false;
 }
 
