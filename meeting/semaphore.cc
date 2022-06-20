@@ -28,8 +28,13 @@ void Semaphore::p() {
 
 void Semaphore::v() {
     if (count == 0) {
-        organizer.wakeup(dequeue());
-        return;
+        // dequeue first process and wake it up
+        Chain* chainp = dequeue();
+        if (chainp) {
+            auto* customer = static_cast<Customer*>(chainp);
+            organizer.wakeup(*customer);
+            return;
+        }
     } 
     count++;
 }
