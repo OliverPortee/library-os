@@ -24,11 +24,7 @@ class Customer : public Entrant {
    public:
     Customer(void* tos) : Entrant{tos} {}
 
-    void waiting_in(Waitingroom* w) {
-        Chain* chain = static_cast<Chain*>(this);
-        w->enqueue(chain);  // TODO: necessary?
-        waitingroom = w;
-    }
+    void waiting_in(Waitingroom* w) { waitingroom = w; }
 
     Waitingroom* waiting_in() { return waitingroom; }
 };
