@@ -29,6 +29,7 @@ void Semaphore::p() {
 void Semaphore::v() {
     if (count == 0) {
         organizer.wakeup(dequeue());
+        return;
     } 
     count++;
 }
