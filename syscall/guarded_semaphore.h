@@ -13,13 +13,20 @@
 #define __Guarded_Semaphore_include__
 
 /* Add your code here */ 
+#include "meeting/semaphore.h"
 
-class Guarded_Semaphore
+class Guarded_Semaphore : Semaphore
 /* Add your code here */ 
 {
 private:
 	Guarded_Semaphore(const Guarded_Semaphore &copy); // prevent copying
 /* Add your code here */ 
+public:
+	Guarded_Semaphore(int c);
+	void p();
+	void v();
+	inline void wait();
+	inline void signal();
 };
 
 #endif
