@@ -19,8 +19,6 @@ class Waitingroom : public Queue {
    private:
     Waitingroom(const Waitingroom& copy);  // prevent copying
 
-    Queue queue;
-
    public:
     Waitingroom();
     virtual ~Waitingroom();

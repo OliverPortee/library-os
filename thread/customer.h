@@ -12,12 +12,25 @@
 #ifndef __customer_include__
 #define __customer_include__
 
+#include "meeting/waitingroom.h"
 #include "thread/entrant.h"
 
 class Customer : public Entrant {
-private:
-	Customer (const Customer &copy); // prevent copying
-/* Add your code here */ 
+   private:
+    Customer(const Customer& copy);  // prevent copying
+
+    Waitingroom* waitingroom{};
+
+   public:
+    Customer(void* tos) : Entrant{tos} {}
+
+    void waiting_in(Waitingroom* w) {
+        Chain* chain = static_cast<Chain*>(this);
+        w->enqueue(chain);  // TODO: necessary?
+        waitingroom = w;
+    }
+
+    Waitingroom* waiting_in() { return waitingroom; }
 };
 
 #endif

@@ -16,7 +16,7 @@
 Waitingroom::Waitingroom() {}
 
 Waitingroom::~Waitingroom() {
-    while (Chain* chain = queue.dequeue()) {
+    while (Chain* chain = dequeue()) {
         auto* customer = static_cast<Customer*>(chain);
         organizer.wakeup(*customer);
     }
@@ -24,5 +24,5 @@ Waitingroom::~Waitingroom() {
 
 void Waitingroom::remove(Customer* customer) {
     auto* chain = static_cast<Chain*>(customer);
-    queue.remove(chain);
+    Queue::remove(chain);
 }
