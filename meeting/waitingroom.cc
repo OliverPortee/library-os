@@ -9,4 +9,20 @@
 /* for a specific event.                                                     */
 /*****************************************************************************/
 
-/* Add your code here */ 
+#include "meeting/waitingroom.h"
+
+#include "thread/organizer.h"
+
+Waitingroom::Waitingroom() {}
+
+Waitingroom::~Waitingroom() {
+    while (Chain* chain = queue.dequeue()) {
+        auto* customer = static_cast<Customer*>(chain);
+        organizer.wakeup(*customer);
+    }
+}
+
+void Waitingroom::remove(Customer* customer) {
+    auto* chain = static_cast<Chain*>(customer);
+    queue.remove(chain);
+}
