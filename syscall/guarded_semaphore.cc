@@ -26,9 +26,11 @@ void Guarded_Semaphore::v() {
 }
 
 inline void Guarded_Semaphore::wait() {
-    Guarded_Semaphore::p();
+    Secure secure;
+    Semaphore::p();
 }
 
 inline void Guarded_Semaphore::signal() {
-    Guarded_Semaphore::v();
+    Secure secure;
+    Semaphore::v();
 }
