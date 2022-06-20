@@ -13,8 +13,9 @@
 #define __Semaphore_include__
 
 /* Add your code here */
- 
-class Semaphore
+#include "meeting/waitingroom.h"
+
+class Semaphore : Waitingroom
 /* Add your code here */ 
 {
 private:

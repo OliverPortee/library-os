@@ -11,7 +11,10 @@
 
 /* Add your code here */ 
 #include "meeting/semaphore.h"
-Semaphore::Semaphore(int c) : count{c}
+#include "thread/organizer.h"
+#include "meeting/waitingroom.h"
+
+Semaphore::Semaphore(int c) : count{c} {}
 
 void Semaphore::p() {
     if (count > 0) {
@@ -19,11 +22,14 @@ void Semaphore::p() {
         return;
     } else {
         // block active process
+        organizer.block(organizer.active(), *this);
     }
 }
 
 void Semaphore::v() {
-    if (count == 0) // wake up first process in waiting list, return;
+    if (count == 0) {
+        organizer.wakeup(dequeue());
+    } 
     count++;
 }
 
