@@ -12,14 +12,21 @@
 #ifndef __Semaphore_include__
 #define __Semaphore_include__
 
-/* Add your code here */ 
-
+/* Add your code here */
+ 
 class Semaphore
 /* Add your code here */ 
 {
 private:
 	Semaphore(const Semaphore &copy); // prevent copying
 /* Add your code here */ 
+	int count;
+public:
+	Semaphore(int c);
+	void p();
+	void v();
+	inline void wait();
+	inline void signal();
 };
 
 #endif

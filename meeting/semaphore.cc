@@ -10,3 +10,27 @@
 /*****************************************************************************/
 
 /* Add your code here */ 
+#include "meeting/semaphore.h"
+Semaphore::Semaphore(int c) : count{c}
+
+void Semaphore::p() {
+    if (count > 0) {
+        count--;
+        return;
+    } else {
+        // block active process
+    }
+}
+
+void Semaphore::v() {
+    if (count == 0) // wake up first process in waiting list, return;
+    count++;
+}
+
+inline void Semaphore::wait() {
+    p();
+}
+
+inline void Semaphore::signal() {
+    v();
+}
