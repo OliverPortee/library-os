@@ -12,11 +12,9 @@
 #ifndef __customer_include__
 #define __customer_include__
 
-/* Add your code here */ 
+#include "thread/entrant.h"
 
-class Customer
-/* Add your code here */ 
-{
+class Customer : public Entrant {
 private:
 	Customer (const Customer &copy); // prevent copying
 /* Add your code here */ 
