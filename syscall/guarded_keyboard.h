@@ -13,8 +13,9 @@
 #define __Guarded_Keyboard_include__
 
 /* Add your code here */ 
+#include "device/keyboard.h"
 
-class Guarded_Keyboard
+class Guarded_Keyboard : Keyboard
 /* Add your code here */ 
 {
 private:
@@ -22,6 +23,7 @@ private:
 public:
 	Guarded_Keyboard() {}
 /* Add your code here */ 
+	Key getkey();
 };
 
 #endif
