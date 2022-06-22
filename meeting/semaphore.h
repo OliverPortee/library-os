@@ -21,8 +21,7 @@ class Semaphore : Waitingroom
 private:
 	Semaphore(const Semaphore &copy); // prevent copying
 /* Add your code here */ 
-	int cur_count;
-	int max_count;
+	int count;
 public:
 	Semaphore(int c);
 	void p();

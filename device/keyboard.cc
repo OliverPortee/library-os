@@ -50,10 +50,9 @@ void Keyboard::epilogue() {
 
 Key Keyboard::getkey() {
     // wait if there is no valid key currently
-
     if (latest_key.valid()) return latest_key;
     key_semaphore.wait();
-    // what if an interrupt changes latest_key to an invalid key
+    // what if an interrupt changes latest to an invalid key
     return latest_key;
 }
 
