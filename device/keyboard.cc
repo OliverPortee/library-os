@@ -13,8 +13,7 @@
 #include "device/cgastr.h"
 #include "machine/pic.h"
 #include "machine/plugbox.h"
-#include "syscall/guarded_scheduler.h"
-#include "meeting/semaphore.h"
+#include "syscall/guarded_organizer.h"
 #include "user/task1.h"
 #include "user/task2.h"
 
@@ -34,9 +33,9 @@ bool Keyboard::prologue() {
         }
         char character = (char)latest_key;
         if (character == '1') {
-            scheduler.Scheduler::kill(task1);
+            organizer.Organizer::kill(task1);
         } else if (character == '2') {
-            scheduler.Scheduler::kill(task2);
+            organizer.Organizer::kill(task2);
         }
         return true;
     }
