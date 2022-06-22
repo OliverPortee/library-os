@@ -41,10 +41,10 @@ void Semaphore::v() {
     if (cur_count < max_count) cur_count++;
 }
 
-inline void Semaphore::wait() {
+void Semaphore::wait() {
     p();
 }
 
-inline void Semaphore::signal() {
+void Semaphore::signal() {
     v();
 }
