@@ -11,13 +11,14 @@
 
 #include "meeting/waitingroom.h"
 
-#include "thread/organizer.h"
+#include "syscall/guarded_organizer.h"
 
 Waitingroom::Waitingroom() {}
 
 Waitingroom::~Waitingroom() {
     while (Chain* chain = dequeue()) {
         auto* customer = static_cast<Customer*>(chain);
+        // TODO: guarded or unguarded method?
         organizer.wakeup(*customer);
     }
 }

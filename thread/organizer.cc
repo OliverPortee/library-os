@@ -38,5 +38,3 @@ void Organizer::kill(Customer& customer) {
         Scheduler::kill(customer);
     }
 }
-
-Organizer organizer{};

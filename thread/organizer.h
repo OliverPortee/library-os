@@ -26,6 +26,4 @@ class Organizer : public Scheduler {
     void kill(Customer& customer);
 };
 
-extern Organizer organizer;
-
 #endif

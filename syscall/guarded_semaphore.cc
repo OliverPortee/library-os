@@ -17,12 +17,12 @@ Guarded_Semaphore::Guarded_Semaphore(int c) : Semaphore(c) {}
 
 void Guarded_Semaphore::p() {
     Secure secure;
-    Semaphore:p();
+    Semaphore::p();
 }
 
 void Guarded_Semaphore::v() {
     Secure secure;
-    Semaphore:v();
+    Semaphore::v();
 }
 
 inline void Guarded_Semaphore::wait() {
