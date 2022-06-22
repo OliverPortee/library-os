@@ -10,4 +10,27 @@
 /* bellringer manages.                                                       */
 /*****************************************************************************/
 
-/* Add your code here */ 
+#include "meeting/bellringer.h"
+
+void Bellringer::check() {
+    auto* bell = static_cast<Bell*>(first());
+    while (bell != nullptr) {
+        bell->tick();
+        if (bell->run_down()) {
+            bell->ring();
+        }
+        bell = static_cast<Bell*>(bell->next);
+    }
+    
+}
+
+void Bellringer::job(Bell* bell, int ticks) {
+    bell->wait(ticks);
+    enqueue(bell);
+}
+
+void Bellringer::cancel(Bell* bell) {
+    remove(bell);
+}
+
+Bellringer bellringer{};

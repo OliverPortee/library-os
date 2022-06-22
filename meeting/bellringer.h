@@ -13,16 +13,20 @@
 #ifndef __Bellringer_include__
 #define __Bellringer_include__
 
-/* Add your code here */ 
+#include "object/list.h"
+#include "meeting/bell.h"
 
-class Bellringer
-/* Add your code here */ 
-{
+class Bellringer : public List {
 private:
 	Bellringer(const Bellringer &copy); // prevent copying
 public:
 	Bellringer() {}
-/* Add your code here */ 
+
+	void check();
+	void job(Bell* bell, int ticks);
+	void cancel(Bell* bell);
 };
+
+extern Bellringer bellringer;
 
 #endif
