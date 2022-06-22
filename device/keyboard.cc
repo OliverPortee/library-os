@@ -18,7 +18,7 @@
 #include "user/task1.h"
 #include "user/task2.h"
 
-Keyboard::Keyboard() : ctrl{}, character{-1}, key_semaphore{1} {}
+Keyboard::Keyboard() : ctrl{}, latest_key{}, key_semaphore{1} {}
 
 void Keyboard::plugin() {
     plugbox.assign(Plugbox::slots::keyboard, *this);
@@ -26,12 +26,13 @@ void Keyboard::plugin() {
 }
 
 bool Keyboard::prologue() {
-    Key key = ctrl.key_hit();
-    if (key.valid()) {
-        if (key.ctrl() && key.alt() && key.scancode() == Key::scan::del) {
+    latest_key = ctrl.key_hit();
+    if (latest_key.valid()) {
+        key_semaphore.signal();
+        if (latest_key.ctrl() && latest_key.alt() && latest_key.scancode() == Key::scan::del) {
             ctrl.reboot();
         }
-        character = (char)key;
+        char character = (char)latest_key;
         if (character == '1') {
             scheduler.Scheduler::kill(task1);
         } else if (character == '2') {
@@ -39,22 +40,21 @@ bool Keyboard::prologue() {
         }
         return true;
     }
-    character = -1;
     return false;
 }
 
 void Keyboard::epilogue() {
     // TODO: are these two lines save since they are not atomic?
-    kout << character << flush;
-    character = -1;
+    kout << (char)latest_key << flush;
 }
 
 Key Keyboard::getkey() {
-    Key key = ctrl.key_hit();
-    if (key.valid()) return key;
+    // wait if there is no valid key currently
 
-    // wait if there is not valid key currently
+    if (latest_key.valid()) return latest_key;
     key_semaphore.wait();
+    // what if an interrupt changes latest_key to an invalid key
+    return latest_key;
 }
 
 Keyboard keyboard{};

@@ -22,7 +22,7 @@ private:
 
 	Keyboard_Controller ctrl;
 
-	char character;
+	Key latest_key;
 	Semaphore key_semaphore;
  
 public:

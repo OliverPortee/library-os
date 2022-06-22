@@ -14,11 +14,11 @@
 #include "thread/organizer.h"
 #include "meeting/waitingroom.h"
 
-Semaphore::Semaphore(int c) : count{c} {}
+Semaphore::Semaphore(int c) : cur_count{c}, max_count{c} {}
 
 void Semaphore::p() {
-    if (count > 0) {
-        count--;
+    if (cur_count > 0) {
+        cur_count--;
         return;
     } else {
         // block active process
@@ -27,7 +27,7 @@ void Semaphore::p() {
 }
 
 void Semaphore::v() {
-    if (count == 0) {
+    if (cur_count == 0) {
         // dequeue first process and wake it up
         Chain* chainp = dequeue();
         if (chainp) {
@@ -35,8 +35,9 @@ void Semaphore::v() {
             organizer.wakeup(*customer);
             return;
         }
-    } 
-    count++;
+    }
+    
+    if (cur_count < max_count) cur_count++;
 }
 
 inline void Semaphore::wait() {
