@@ -13,7 +13,8 @@
 #define __waitingroom_include__
 
 #include "object/queue.h"
-#include "thread/customer.h"
+
+class Customer;
 
 class Waitingroom : public Queue {
    private:

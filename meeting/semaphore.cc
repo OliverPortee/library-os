@@ -11,8 +11,8 @@
 
 /* Add your code here */ 
 #include "meeting/semaphore.h"
-#include "thread/organizer.h"
 #include "meeting/waitingroom.h"
+#include "syscall/guarded_organizer.h"
 
 Semaphore::Semaphore(int c) : count{c} {}
 
@@ -22,7 +22,8 @@ void Semaphore::p() {
         return;
     } else {
         // block active process
-        organizer.block(organizer.active(), *this);
+        auto* customer = static_cast<Customer*>(organizer.active());
+        organizer.Organizer::block(*customer, *this);
     }
 }
 
@@ -32,7 +33,7 @@ void Semaphore::v() {
         Chain* chainp = dequeue();
         if (chainp) {
             auto* customer = static_cast<Customer*>(chainp);
-            organizer.wakeup(*customer);
+            organizer.Organizer::wakeup(*customer);
             return;
         }
     }
@@ -40,10 +41,10 @@ void Semaphore::v() {
     count++;
 }
 
-inline void Semaphore::wait() {
+void Semaphore::wait() {
     p();
 }
 
-inline void Semaphore::signal() {
+void Semaphore::signal() {
     v();
 }

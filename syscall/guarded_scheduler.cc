@@ -30,5 +30,3 @@ void Guarded_Scheduler::resume() {
     Secure secure;
     Scheduler::resume();
 }
-
-Guarded_Scheduler scheduler{};

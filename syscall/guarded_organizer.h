@@ -16,11 +16,16 @@
 #include "thread/organizer.h"
 
 class Guarded_Organizer : public Organizer {
-private:
-	Guarded_Organizer(const Guarded_Organizer &copy); // prevent copying
-public:
-	Guarded_Organizer() {}
-/* Add your code here */ 
+   private:
+    Guarded_Organizer(const Guarded_Organizer& copy);  // prevent copying
+   public:
+    Guarded_Organizer();
+    void ready(Thread& thread);
+    void exit();
+    void kill(Thread& thread);
+    void resume();
 };
+
+extern Guarded_Organizer organizer;
 
 #endif

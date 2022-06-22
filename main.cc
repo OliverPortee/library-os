@@ -2,7 +2,7 @@
 #include "device/watch.h"
 #include "guard/secure.h"
 #include "machine/cpu.h"
-#include "syscall/guarded_scheduler.h"
+#include "syscall/guarded_organizer.h"
 #include "user/appl.h"
 
 int main() {
@@ -11,8 +11,8 @@ int main() {
     keyboard.plugin();
     watch.windup();
 
-    scheduler.Scheduler::ready(app);
-    scheduler.Scheduler::schedule();
+    organizer.Organizer::ready(app);
+    organizer.Scheduler::schedule();
 
     return 0;
 }
