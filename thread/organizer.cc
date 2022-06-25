@@ -17,7 +17,12 @@ Organizer::Organizer() {}
 void Organizer::block(Customer& customer, Waitingroom& waitingroom) {
     waitingroom.enqueue(&customer);
     customer.waiting_in(&waitingroom);
-    exit();
+    // TODO: use Scheduler::kill for that
+    if (active() == &customer) {
+        exit();
+    } else {
+        queue.remove(&customer);
+    }
 }
 
 void Organizer::wakeup(Customer& customer) {

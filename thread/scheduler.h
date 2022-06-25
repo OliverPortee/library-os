@@ -19,6 +19,7 @@ class Scheduler : public Dispatcher {
    private:
     Scheduler(const Scheduler& copy);  // prevent copying
 
+   protected:
     Queue queue{};  // of Entrants
 
    public:
