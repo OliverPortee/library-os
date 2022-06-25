@@ -14,8 +14,11 @@
 #include "machine/pic.h"
 #include "device/cgastr.h"
 #include "syscall/guarded_organizer.h"
+#include "object/assert.h"
 
-Watch::Watch(int us) : PIT(us) {}
+Watch::Watch(int us) : PIT(us), ticks_per_ms{1000 / us} {
+    assert(us > 0, "watch step us <= 0");
+}
 
 void Watch::windup() {
     plugbox.assign(Plugbox::slots::timer, *this);

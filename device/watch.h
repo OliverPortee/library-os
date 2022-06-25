@@ -21,6 +21,8 @@ class Watch : public Gate, public PIT {
 private:
 	Watch(const Watch &copy); // prevent copying
 public:
+	const int ticks_per_ms;
+
 	// WATCH: Timer initialization, see PIT.
 	Watch(int us);
 
