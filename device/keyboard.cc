@@ -50,7 +50,6 @@ bool Keyboard::prologue() {
 }
 
 void Keyboard::epilogue() {
-    // TODO: are these two lines save since they are not atomic?
     kout << (char)latest_key << flush;
 }
 
