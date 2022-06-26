@@ -17,7 +17,7 @@
 #include "user/task1.h"
 #include "user/task2.h"
 
-Keyboard::Keyboard() : ctrl{}, latest_key{}, key_semaphore{0}, signaled{false} {}
+Keyboard::Keyboard() : ctrl{}, latest_key{}, key_semaphore{0}, latest_key_valid{false} {}
 
 void Keyboard::plugin() {
     plugbox.assign(Plugbox::slots::keyboard, *this);
@@ -28,9 +28,9 @@ bool Keyboard::prologue() {
     latest_key = ctrl.key_hit();
     if (latest_key.valid()) {
         // set key_semaphore count to 1
-        if (!signaled) {
+        if (!latest_key_valid) {
+            latest_key_valid = true;
             key_semaphore.signal();
-            signaled = true;
         }
 
         if (latest_key.ctrl() && latest_key.alt() && latest_key.scancode() == Key::scan::del) {
@@ -45,12 +45,7 @@ bool Keyboard::prologue() {
         return true;
     }
 
-    // wait() should not block if signaled is true
-    if (signaled) {
-        key_semaphore.wait();
-        signaled = false;
-    }
-
+    latest_key_valid = false;
     return false;
 }
 
@@ -60,11 +55,12 @@ void Keyboard::epilogue() {
 }
 
 Key Keyboard::getkey() {
-    key_semaphore.wait();
+    while(!latest_key_valid) {
+        key_semaphore.wait();
+    }
+    
     // what if an interrupt changes latest_key to an invalid key here
     Key key = latest_key;
-    // key should still be valid and usable by other applications
-    // again, what if an interrupt changes latest_key to an invalid key here
     key_semaphore.signal();
     return key;
 }

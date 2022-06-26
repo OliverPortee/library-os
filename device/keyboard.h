@@ -24,7 +24,7 @@ private:
 
 	Key latest_key;
 	Semaphore key_semaphore;
-	bool signaled; 
+	bool latest_key_valid; 
  
 public:
 	Keyboard();
