@@ -1,12 +1,14 @@
 
 #include "syscall/thread.h"
+#include "machine/cpu.h"
 
 class Idle : public Thread {
    public:
     Idle(void* tos) : Thread{tos} {}
 
     void action() {
-        // TODO!
-        while (true) {}
+        while (true) {
+            cpu.idle();
+        }
     }
 };
