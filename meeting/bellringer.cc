@@ -19,9 +19,12 @@ void Bellringer::check() {
         bell->tick();
         if (bell->run_down()) {
             bell->ring();
-            // TODO: remove bell
+            auto next_bell = bell->next;
+            remove(bell);
+            bell = static_cast<Bell*>(next_bell);
+        } else {
+            bell = static_cast<Bell*>(bell->next);
         }
-        bell = static_cast<Bell*>(bell->next);
     }
     
 }
