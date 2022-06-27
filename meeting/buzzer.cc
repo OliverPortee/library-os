@@ -23,7 +23,7 @@ Buzzer::~Buzzer() {
 void Buzzer::ring() {
     while (Chain* chain = dequeue()) {
         auto customer = static_cast<Customer*>(chain);
-        organizer.wakeup(*customer);
+        organizer.Organizer::wakeup(*customer);
     }
 }
 
@@ -32,5 +32,5 @@ void Buzzer::set(int ms) {
 }
 
 void Buzzer::sleep() {
-    organizer.resume();
+    organizer.Organizer::resume();
 }
