@@ -14,6 +14,7 @@
 #include "device/watch.h"
 #include "thread/customer.h"
 #include "meeting/bellringer.h"
+#include "object/assert.h"
 
 
 Buzzer::~Buzzer() {
@@ -28,9 +29,11 @@ void Buzzer::ring() {
 }
 
 void Buzzer::set(int ms) {
-    bellringer.job(this, watch.ticks_per_ms);
+    assert(ms > 0, "Buzzer::set with ms <= 0");
+    bellringer.job(this, watch.ticks_per_ms * ms);
 }
 
 void Buzzer::sleep() {
-    organizer.Organizer::resume();
+    auto current = static_cast<Customer*>(organizer.active());
+    organizer.Organizer::block(*current, *this);
 }

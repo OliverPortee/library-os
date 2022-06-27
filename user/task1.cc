@@ -20,7 +20,7 @@ void Task1::action() {
     }
     sem.signal();
     Guarded_Buzzer buzzer;
-    buzzer.set(1'000'000);
+    buzzer.set(30);
     buzzer.sleep();
     kout << "woken up" << endl;
 }
