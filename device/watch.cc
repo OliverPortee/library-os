@@ -15,6 +15,7 @@
 #include "device/cgastr.h"
 #include "syscall/guarded_organizer.h"
 #include "object/assert.h"
+#include "meeting/bellringer.h"
 
 Watch::Watch(int us) : PIT(us), ticks_per_ms{1000 / us} {
     assert(us > 0, "watch step us <= 0");
@@ -30,7 +31,8 @@ bool Watch::prologue() {
 }
 
 void Watch::epilogue() {
+    bellringer.check();
     organizer.Organizer::resume();
 }
 
-Watch watch{static_cast<int>(0.838*65536)};
+Watch watch{static_cast<int>(25)};

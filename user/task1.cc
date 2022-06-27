@@ -4,6 +4,7 @@
 #include "device/cgastr.h"
 #include "syscall/guarded_semaphore.h"
 #include "syscall/guarded_organizer.h"
+#include "syscall/guarded_buzzer.h"
 
 char stack1[65536];
 
@@ -18,6 +19,10 @@ void Task1::action() {
         organizer.resume();
     }
     sem.signal();
+    Guarded_Buzzer buzzer;
+    buzzer.set(30);
+    buzzer.sleep();
+    kout << "woken up" << endl;
 }
 
 Task1 task1{};

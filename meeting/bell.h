@@ -14,20 +14,26 @@
 #define __Bell_include__
 
 #include "object/chain.h"
+#include "object/assert.h"
 
 class Bell : public Chain {
-private:
-	Bell(const Bell &copy); // prevent copying
+   private:
+    Bell(const Bell &copy);  // prevent copying
 
-	int _value{};
-public:
-	Bell() {}
+    int _value{};
 
-	inline void wait(int value) { _value = value; }
-	inline int wait() { return _value; }
-	inline void tick() { --_value; }
-	inline bool run_down() { return _value == 0; }
-	virtual void ring() = 0;
+   public:
+    Bell() {}
+
+    inline void wait(int value) {
+		assert(value > 0, "Bell::wait with value <= 0");
+		_value = value;
+	}
+
+    inline int wait() { return _value; }
+    inline void tick() { --_value; }
+    inline bool run_down() { return _value == 0; }
+    virtual void ring() = 0;
 };
 
 #endif

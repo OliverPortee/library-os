@@ -10,22 +10,24 @@
 
 #include "thread/scheduler.h"
 
-#include "guard/secure.h"
 #include "device/cgastr.h"
+#include "guard/secure.h"
 
-Scheduler::Scheduler() {}
+char stack[16384];
+
+Scheduler::Scheduler() : loop{stack + sizeof(stack)} {}
 
 void Scheduler::ready(Entrant& that) { queue.enqueue(&that); }
 
 void Scheduler::schedule() {
     Chain* chain = queue.dequeue();
+    Coroutine* coroutine;
     if (chain == nullptr) {
-        // halt machine if no more tasks to schedule
-        kout << "no more tasks to schedule" << endl;
-        cpu.halt();
+        coroutine = static_cast<Coroutine*>(&loop);
+    } else {
+        Entrant* e = static_cast<Entrant*>(chain);
+        coroutine = static_cast<Coroutine*>(e);
     }
-    Entrant* e = static_cast<Entrant*>(chain);
-    Coroutine* coroutine = static_cast<Coroutine*>(e);
 
     if (active() == nullptr) {
         go(*coroutine);
@@ -37,17 +39,16 @@ void Scheduler::schedule() {
 void Scheduler::exit() { schedule(); }
 
 void Scheduler::kill(Entrant& that) {
-    Chain* chainp = static_cast<Chain*>(&that);
-
     if (active() == &that) {
         exit();
     } else {
-        queue.remove(chainp);
+        Chain* chain = static_cast<Chain*>(&that);
+        queue.remove(chain);
     }
 }
 
 void Scheduler::resume() {
-    if (active() != nullptr) {
+    if (active() != nullptr && active() != &loop) {
         Entrant* e = static_cast<Entrant*>(active());
         Chain* c = static_cast<Chain*>(e);
         queue.enqueue(c);
