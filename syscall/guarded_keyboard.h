@@ -15,7 +15,7 @@
 /* Add your code here */ 
 #include "device/keyboard.h"
 
-class Guarded_Keyboard : Keyboard
+class Guarded_Keyboard : public Keyboard
 /* Add your code here */ 
 {
 private:
@@ -25,5 +25,7 @@ public:
 /* Add your code here */ 
 	Key getkey();
 };
+
+extern Guarded_Keyboard guarded_keyboard;
 
 #endif

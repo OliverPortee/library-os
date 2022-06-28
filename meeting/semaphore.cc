@@ -13,6 +13,7 @@
 #include "meeting/semaphore.h"
 #include "meeting/waitingroom.h"
 #include "syscall/guarded_organizer.h"
+#include "device/cgastr.h"
 
 Semaphore::Semaphore(int c) : count{c} {}
 

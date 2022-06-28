@@ -12,9 +12,11 @@ char stack3[65536];
 Task3::Task3() : Thread{stack3 + sizeof(stack3)} {}
 
 void Task3::action() {
-    kout << "wait for keyboard input: " << endl;
-    Key k = guarded_keyboard.getkey();
-    kout << "key was: " << k.valid() << endl;    
+    while (true) {
+        kout << "wait for keyboard input: " << endl;
+        Key k = guarded_keyboard.getkey();
+        kout << endl << "key was: " << (char) k << endl << endl;
+    }    
 }
 
 Task3 task3{};

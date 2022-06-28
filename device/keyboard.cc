@@ -60,5 +60,3 @@ Key Keyboard::getkey() {
     Key key = latest_key;
     return key;
 }
-
-Keyboard keyboard{};

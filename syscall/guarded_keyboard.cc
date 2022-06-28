@@ -19,4 +19,4 @@ Key Guarded_Keyboard::getkey() {
     return Keyboard::getkey();
 }
 
-Guarded_Keyboard guarded_keyboard {};
+Guarded_Keyboard guarded_keyboard{};

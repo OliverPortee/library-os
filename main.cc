@@ -1,3 +1,4 @@
+#include "syscall/guarded_keyboard.h"
 #include "device/keyboard.h"
 #include "device/watch.h"
 #include "guard/secure.h"
@@ -8,7 +9,7 @@
 int main() {
     Secure secure;
     cpu.enable_int();
-    keyboard.plugin();
+    guarded_keyboard.plugin();
     watch.windup();
 
     organizer.Organizer::ready(app);

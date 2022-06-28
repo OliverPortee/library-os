@@ -37,6 +37,4 @@ public:
 	Key getkey();
 };
 
-extern Keyboard keyboard;
-
 #endif
