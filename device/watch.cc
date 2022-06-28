@@ -12,12 +12,11 @@
 #include "device/watch.h"
 #include "machine/plugbox.h"
 #include "machine/pic.h"
-#include "device/cgastr.h"
 #include "syscall/guarded_organizer.h"
 #include "object/assert.h"
 #include "meeting/bellringer.h"
 
-Watch::Watch(int us) : PIT(us), ticks_per_ms{1000 / us} {
+Watch::Watch(int us, double ticks_per_ms) : PIT(us), ticks_per_ms{ticks_per_ms} {
     assert(us > 0, "watch step us <= 0");
 }
 
@@ -35,4 +34,4 @@ void Watch::epilogue() {
     organizer.Organizer::resume();
 }
 
-Watch watch{static_cast<int>(25)};
+Watch watch{10, 0.42}; // TODO: don't hardcode ticks per ms

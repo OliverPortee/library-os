@@ -13,8 +13,8 @@
 #ifndef __Bell_include__
 #define __Bell_include__
 
-#include "object/chain.h"
 #include "object/assert.h"
+#include "object/chain.h"
 
 class Bell : public Chain {
    private:
@@ -26,9 +26,9 @@ class Bell : public Chain {
     Bell() {}
 
     inline void wait(int value) {
-		assert(value > 0, "Bell::wait with value <= 0");
-		_value = value;
-	}
+        assert(value > 0, "Bell::wait with value <= 0");
+        _value = value;
+    }
 
     inline int wait() { return _value; }
     inline void tick() { --_value; }
