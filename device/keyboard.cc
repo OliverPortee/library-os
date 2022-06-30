@@ -50,7 +50,7 @@ bool Keyboard::prologue() {
 
 void Keyboard::epilogue() {
     if (last_key.valid()) {
-        if (!last_valid_key.valid()) key_semaphore.signal();    // earlier key was not used, don't signal again
+        if (!last_valid_key.valid()) key_semaphore.signal();    // signal only if earlier key was invalidated by getkey()
         last_valid_key = last_key;                              
     } 
         
