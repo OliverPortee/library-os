@@ -5,6 +5,7 @@
 #include "syscall/guarded_buzzer.h"
 #include "syscall/guarded_organizer.h"
 #include "syscall/guarded_semaphore.h"
+#include "syscall/guarded_keyboard.h"
 
 char stack1[65536];
 
@@ -19,11 +20,18 @@ void Task1::action() {
         organizer.resume();
     }
     sem.signal();
+
+    Guarded_Buzzer buzzer;
     while (true) {
-        Guarded_Buzzer buzzer;
+        sem.wait();
+        kout << endl << "press any key to sleep 1s: " << flush;
+        while (!guarded_keyboard.getkey().valid());
+        kout << endl << "going to sleep..." << endl;
+
         buzzer.set(1000);
         buzzer.sleep();
         kout << "woken up" << endl;
+        sem.signal();
     }
 }
 

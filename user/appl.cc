@@ -22,7 +22,8 @@ char app_stack[65536];
 Application::Application() : Thread{app_stack + sizeof(app_stack)} {}
 
 void Application::action() {
-    organizer.ready(task3);
+    organizer.ready(task1);
+    organizer.ready(task2);
 }
 
 Application app{};
