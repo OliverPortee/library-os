@@ -19,11 +19,6 @@ void Task2::action() {
         organizer.resume();
     }
     sem.signal();
-    while (true) {
-        kout << "waiting for keyboard input: " << endl;
-        Key k = keyboard.getkey();
-        kout << endl << "key was: " << (char) k << endl;
-    }    
 }
 
 Task2 task2{};

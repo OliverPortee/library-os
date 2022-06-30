@@ -25,12 +25,12 @@ void Task1::action() {
     while (true) {
         sem.wait();
         kout << endl << "press any key to sleep 1s: " << flush;
-        while (!keyboard.getkey().valid());
+        keyboard.getkey();
         kout << endl << "going to sleep..." << endl;
 
         buzzer.set(1000);
         buzzer.sleep();
-        kout << "woken up" << endl;
+        kout << "wake up" << endl;
         sem.signal();
     }
 }

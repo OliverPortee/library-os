@@ -22,9 +22,9 @@ private:
 
 	Keyboard_Controller ctrl;
 
-	Key latest_key;
+	Key last_key;
+	Key last_valid_key;
 	Semaphore key_semaphore;
-	bool key_present; 
  
 public:
 	Keyboard();

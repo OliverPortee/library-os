@@ -10,6 +10,7 @@
 
 #include "keyboard.h"
 
+#include "guard/secure.h"
 #include "device/cgastr.h"
 #include "machine/pic.h"
 #include "machine/plugbox.h"
@@ -17,7 +18,7 @@
 #include "user/task1.h"
 #include "user/task2.h"
 
-Keyboard::Keyboard() : ctrl{}, latest_key{}, key_semaphore{0}, key_present{false} {}
+Keyboard::Keyboard() : ctrl{}, last_key{}, last_valid_key{}, key_semaphore{0} {}
 
 void Keyboard::plugin() {
     plugbox.assign(Plugbox::slots::keyboard, *this);
@@ -25,19 +26,17 @@ void Keyboard::plugin() {
 }
 
 bool Keyboard::prologue() {
-    latest_key = ctrl.key_hit();
+    last_key = ctrl.key_hit();
 
-    // don't signal more than one key
-    if (!key_present) {
-        key_present = true;
-        key_semaphore.signal();
-    }
+    if (last_key.valid()) {
+        if (!last_key.valid()) {
+            key_semaphore.signal();
+        }   
 
-    if (latest_key.valid()) {
-        if (latest_key.ctrl() && latest_key.alt() && latest_key.scancode() == Key::scan::del) {
+        if (last_key.ctrl() && last_key.alt() && last_key.scancode() == Key::scan::del) {
             ctrl.reboot();
         }
-        char character = (char)latest_key;
+        char character = (char)last_key;
         if (character == '1') {
             organizer.Organizer::kill(task1);
         } else if (character == '2') {
@@ -50,13 +49,18 @@ bool Keyboard::prologue() {
 }
 
 void Keyboard::epilogue() {
-    kout << (char)latest_key << flush;
+    if (last_key.valid()) {
+        if (!last_valid_key.valid()) key_semaphore.signal();    // earlier key was not used, don't signal again
+        last_valid_key = last_key;                              
+    } 
+        
+    kout << (char)last_key << flush;
 }
 
 Key Keyboard::getkey() {
     key_semaphore.wait();
-    // still might return an invalid key if an interrupt changes latest_key here
-    key_present = false; // mark current key as used up
-    Key key = latest_key;
+    Key key = last_valid_key;
+    last_valid_key.invalidate();    // mark key as used, meaning that some thread completed wait()
+                                    // and the semaphore count is now 0 again
     return key;
 }
