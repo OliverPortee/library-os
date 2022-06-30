@@ -15,7 +15,6 @@
 #include "syscall/guarded_organizer.h"
 #include "user/task1.h"
 #include "user/task2.h"
-#include "user/task3.h"
 
 char app_stack[65536];
 

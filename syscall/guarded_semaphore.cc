@@ -9,8 +9,8 @@
 /* Semaphore class.                                                          */
 /*****************************************************************************/
 
-/* Add your code here */ 
 #include "syscall/guarded_semaphore.h"
+
 #include "guard/secure.h"
 
 Guarded_Semaphore::Guarded_Semaphore(int c) : Semaphore(c) {}

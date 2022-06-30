@@ -9,7 +9,6 @@
 /* keyboard.                                                                 */
 /*****************************************************************************/
 
-/* Add your code here */
 #include "syscall/guarded_keyboard.h"
 #include "device/keyboard.h"
 #include "guard/secure.h"
@@ -19,4 +18,4 @@ Key Guarded_Keyboard::getkey() {
     return Keyboard::getkey();
 }
 
-Guarded_Keyboard guarded_keyboard{};
+Guarded_Keyboard keyboard{};
