@@ -12,20 +12,16 @@
 #ifndef __Guarded_Keyboard_include__
 #define __Guarded_Keyboard_include__
 
-/* Add your code here */ 
 #include "device/keyboard.h"
 
-class Guarded_Keyboard : public Keyboard
-/* Add your code here */ 
-{
-private:
-	Guarded_Keyboard(const Guarded_Keyboard &copy); // prevent copying
-public:
-	Guarded_Keyboard() {}
-/* Add your code here */ 
-	Key getkey();
+class Guarded_Keyboard : public Keyboard {
+   private:
+    Guarded_Keyboard(const Guarded_Keyboard &copy);  // prevent copying
+   public:
+    Guarded_Keyboard() {}
+    Key getkey();
 };
 
-extern Guarded_Keyboard guarded_keyboard;
+extern Guarded_Keyboard keyboard;
 
 #endif

@@ -21,9 +21,9 @@ void Task1::action() {
     sem.signal();
     while (true) {
         Guarded_Buzzer buzzer;
-        buzzer.set(1000);
+        buzzer.set(5000);
         buzzer.sleep();
-        kout << "woken up" << endl;
+        kout << "5s bump" << endl;
     }
 }
 
