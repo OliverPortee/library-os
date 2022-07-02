@@ -27,14 +27,16 @@ MAX_MEM: equ 254
 ; Multiboot constants
 MULTIBOOT_PAGE_ALIGN     equ   1<<0
 MULTIBOOT_MEMORY_INFO    equ   1<<1
+MULTIBOOT_GRAPHICS_INFO	 equ   1<<2
 
 ; magic number for Multiboot
 MULTIBOOT_HEADER_MAGIC   equ   0x1badb002
 
 ; Multiboot flags (ELF specific!)
-MULTIBOOT_HEADER_FLAGS   equ   MULTIBOOT_PAGE_ALIGN | MULTIBOOT_MEMORY_INFO
-MULTIBOOT_HEADER_CHKSUM  equ   -(MULTIBOOT_HEADER_MAGIC + MULTIBOOT_HEADER_FLAGS)
-MULTIBOOT_EAX_MAGIC      equ   0x2badb002
+MULTIBOOT_PAGE_MEM_FLAGS   equ   MULTIBOOT_PAGE_ALIGN | MULTIBOOT_MEMORY_INFO
+MULTIBOOT_HEADER_FLAGS     equ   MULTIBOOT_PAGE_MEM_FLAGS | MULTIBOOT_GRAPHICS_INFO
+MULTIBOOT_HEADER_CHKSUM    equ   -(MULTIBOOT_HEADER_MAGIC + MULTIBOOT_HEADER_FLAGS)
+MULTIBOOT_EAX_MAGIC        equ   0x2badb002
 
 ; memory for the page table
 
@@ -94,9 +96,9 @@ pagetable_end:  equ 0x200000
 	dd 0 ; bss_end_addr (gets ignored)
 	dd 0 ; entry_addr (gets ignored)
 	dd 0 ; mode_type (gets ignored)
-	dd 0 ; width (gets ignored)
-	dd 0 ; height (gets ignored)
-	dd 0 ; depth (gets ignored)
+	dd 1024 ; width (gets ignored)
+	dd 768 ; height (gets ignored)
+	dd 24 ; depth (gets ignored)
 
 ;
 ;  GRUB entry point
