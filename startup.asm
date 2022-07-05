@@ -96,9 +96,9 @@ pagetable_end:  equ 0x200000
 	dd 0 ; bss_end_addr (gets ignored)
 	dd 0 ; entry_addr (gets ignored)
 	dd 0 ; mode_type (gets ignored)
-	dd 1024 ; width (gets ignored)
-	dd 768 ; height (gets ignored)
-	dd 24 ; depth (gets ignored)
+	dd 320 ; width (gets ignored)
+	dd 200 ; height (gets ignored)
+	dd 8 ; depth (gets ignored)
 
 ;
 ;  GRUB entry point
