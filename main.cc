@@ -7,7 +7,15 @@
 #include "user/appl.h"
 #include "machine/vgascr.h"
 
+extern "C" {
+    void read_ebx(int* out);
+}
+
 int main() {
+    // get multiboot2 info address from ebx register
+    int ebx;
+    read_ebx(&ebx);
+
     Secure secure;
     cpu.enable_int();
     keyboard.plugin();
