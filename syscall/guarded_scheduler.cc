@@ -9,7 +9,6 @@
 /*****************************************************************************/
 
 #include "syscall/guarded_scheduler.h"
-
 #include "guard/secure.h"
 
 void Guarded_Scheduler::ready(Thread& that) {
@@ -31,5 +30,3 @@ void Guarded_Scheduler::resume() {
     Secure secure;
     Scheduler::resume();
 }
-
-Guarded_Scheduler scheduler{};

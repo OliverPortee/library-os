@@ -14,6 +14,7 @@
 #include "machine/keyctrl.h"
 #include "guard/gate.h"
 #include "machine/key.h"
+#include "meeting/semaphore.h"
  
 class Keyboard : public Gate {
 private:
@@ -21,7 +22,9 @@ private:
 
 	Keyboard_Controller ctrl;
 
-	char character;
+	Key last_key;
+	Key last_valid_key;
+	Semaphore key_semaphore;
  
 public:
 	Keyboard();
@@ -31,8 +34,7 @@ public:
 
 	bool prologue();
 	void epilogue();
+	Key getkey();
 };
-
-extern Keyboard keyboard;
 
 #endif

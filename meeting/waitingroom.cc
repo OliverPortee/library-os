@@ -9,4 +9,21 @@
 /* for a specific event.                                                     */
 /*****************************************************************************/
 
-/* Add your code here */ 
+#include "meeting/waitingroom.h"
+
+#include "syscall/guarded_organizer.h"
+
+Waitingroom::Waitingroom() {}
+
+Waitingroom::~Waitingroom() {
+    while (Chain* chain = dequeue()) {
+        auto* customer = static_cast<Customer*>(chain);
+        // TODO: guarded or unguarded method?
+        organizer.wakeup(*customer);
+    }
+}
+
+void Waitingroom::remove(Customer* customer) {
+    auto* chain = static_cast<Chain*>(customer);
+    Queue::remove(chain);
+}

@@ -14,11 +14,14 @@
 #include "object/queue.h"
 #include "thread/dispatch.h"
 #include "thread/entrant.h"
+#include "thread/idle.h"
 
 class Scheduler : public Dispatcher {
    private:
     Scheduler(const Scheduler& copy);  // prevent copying
+    Idle loop;
 
+   protected:
     Queue queue{};  // of Entrants
 
    public:

@@ -12,14 +12,18 @@
 #ifndef __Semaphore_include__
 #define __Semaphore_include__
 
-/* Add your code here */ 
+#include "meeting/waitingroom.h"
 
-class Semaphore
-/* Add your code here */ 
-{
+class Semaphore : Waitingroom {
 private:
 	Semaphore(const Semaphore &copy); // prevent copying
-/* Add your code here */ 
+	int count;
+public:
+	Semaphore(int c);
+	void p();
+	void v();
+	void wait();
+	void signal();
 };
 
 #endif

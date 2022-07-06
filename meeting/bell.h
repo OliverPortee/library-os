@@ -13,16 +13,27 @@
 #ifndef __Bell_include__
 #define __Bell_include__
 
-/* Add your code here */ 
+#include "object/assert.h"
+#include "object/chain.h"
 
-class Bell
-/* Add your code here */ 
-{
-private:
-	Bell(const Bell &copy); // prevent copying
-public:
-	Bell() {}
-/* Add your code here */ 
+class Bell : public Chain {
+   private:
+    Bell(const Bell &copy);  // prevent copying
+
+    int _value{};
+
+   public:
+    Bell() {}
+
+    inline void wait(int value) {
+        assert(value > 0, "Bell::wait with value <= 0");
+        _value = value;
+    }
+
+    inline int wait() { return _value; }
+    inline void tick() { --_value; }
+    inline bool run_down() { return _value == 0; }
+    virtual void ring() = 0;
 };
 
 #endif

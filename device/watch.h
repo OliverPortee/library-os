@@ -21,8 +21,10 @@ class Watch : public Gate, public PIT {
 private:
 	Watch(const Watch &copy); // prevent copying
 public:
+	const double ticks_per_ms;
+
 	// WATCH: Timer initialization, see PIT.
-	Watch(int us);
+	Watch(int us, double ticks_per_ms);
 
 	// WINDUP: "Winds up" the clock. To do this, the watch object must register
 	//         with the Plugbox plugbox and allow the interrupts of the timer

@@ -13,16 +13,17 @@
 #define __waitingroom_include__
 
 #include "object/queue.h"
-#include "thread/customer.h"
 
-class Customer; // Forward declaration
+class Customer;
 
 class Waitingroom : public Queue {
-private:
-	Waitingroom(const Waitingroom &copy); // prevent copying
-public:
-	Waitingroom() {}
-/* Add your code here */ 
+   private:
+    Waitingroom(const Waitingroom& copy);  // prevent copying
+
+   public:
+    Waitingroom();
+    virtual ~Waitingroom();
+    virtual void remove(Customer* customer);
 };
 
 #endif

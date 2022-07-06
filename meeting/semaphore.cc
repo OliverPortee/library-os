@@ -10,3 +10,41 @@
 /*****************************************************************************/
 
 /* Add your code here */ 
+#include "meeting/semaphore.h"
+#include "meeting/waitingroom.h"
+#include "syscall/guarded_organizer.h"
+#include "device/cgastr.h"
+
+Semaphore::Semaphore(int c) : count{c} {}
+
+void Semaphore::p() {
+    if (count > 0) {
+        count--;
+    } else {
+        // block active process
+        auto* customer = static_cast<Customer*>(organizer.active());
+        organizer.Organizer::block(*customer, *this);
+    }
+}
+
+void Semaphore::v() {
+    if (count == 0) {
+        // dequeue first process and wake it up
+        Chain* chainp = dequeue();
+        if (chainp) {
+            auto* customer = static_cast<Customer*>(chainp);
+            organizer.Organizer::wakeup(*customer);
+            return;
+        }
+    }
+    
+    count++;
+}
+
+void Semaphore::wait() {
+    p();
+}
+
+void Semaphore::signal() {
+    v();
+}

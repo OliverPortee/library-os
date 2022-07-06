@@ -18,13 +18,13 @@
 #include "thread/coroutine.h"
 #include "guard/guard.h"
 #include "object/assert.h"
-#include "syscall/guarded_scheduler.h"
+#include "syscall/guarded_organizer.h"
 
 void kickoff(void* dummy1, void* dummy2, void* dummy3, void* dummy4,
              void* dummy5, void* dummy6, Coroutine* object) {
     guard.leave();
     object->action();
-    scheduler.exit();
+    organizer.exit();
 }
 
 #endif

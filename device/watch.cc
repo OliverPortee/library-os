@@ -12,10 +12,13 @@
 #include "device/watch.h"
 #include "machine/plugbox.h"
 #include "machine/pic.h"
-#include "device/cgastr.h"
-#include "syscall/guarded_scheduler.h"
+#include "syscall/guarded_organizer.h"
+#include "object/assert.h"
+#include "meeting/bellringer.h"
 
-Watch::Watch(int us) : PIT(us) {}
+Watch::Watch(int us, double ticks_per_ms) : PIT(us), ticks_per_ms{ticks_per_ms} {
+    assert(us > 0, "watch step us <= 0");
+}
 
 void Watch::windup() {
     plugbox.assign(Plugbox::slots::timer, *this);
@@ -27,7 +30,8 @@ bool Watch::prologue() {
 }
 
 void Watch::epilogue() {
-    scheduler.Scheduler::resume();
+    bellringer.check();
+    organizer.Organizer::resume();
 }
 
-Watch watch{static_cast<int>(0.838*65536)};
+Watch watch{10, 0.42}; // TODO: don't hardcode ticks per ms
