@@ -16,6 +16,12 @@ int main() {
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
     VGA_Screen scr;
-    scr.fill((char) 155);
+
+    int line = 100;
+    for (int i = 0; i < scr.PIXEL_WIDTH; i++)
+    {
+        scr.show(i,line,155);
+    }
+        
     return 0;
 }

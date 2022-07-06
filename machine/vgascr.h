@@ -9,8 +9,8 @@ private:
 	VGA_Screen(const VGA_Screen &copy); // prevent copying
 
 public:
-    const int PIXEL_WIDTH = 1024;
-    const int PIXEL_HEIGHT = 768;
+    const int PIXEL_WIDTH = 320;
+    const int PIXEL_HEIGHT = 200;
     const int COLOUR_DEPTH = 8;
 
 	VGA_Screen(){};
