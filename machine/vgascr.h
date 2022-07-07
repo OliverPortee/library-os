@@ -1,19 +1,29 @@
 #ifndef __vga_screen_include__
 #define __vga_screen_include__
 
+#include "machine/io_port.h"
+
 class VGA_Screen
 {
 private:
     char *const VGA_BASE_ADDR = (char *)0xA0000;
-    
+
+    // ports used to read color values from the palette RAM
+    // see http://www.osdever.net/FreeVGA/vga/colorreg.htm
+    const IO_Port dac_read_mode_reg{0x3C7};
+    const IO_Port dac_data_reg{0x3C9};
+
+    char colour_palette[256*3];
+
 	VGA_Screen(const VGA_Screen &copy); // prevent copying
 
 public:
     const int PIXEL_WIDTH = 320;
     const int PIXEL_HEIGHT = 200;
     const int COLOUR_DEPTH = 8;
+    const float ASPECT_RATIO = (float)PIXEL_WIDTH / (float)PIXEL_HEIGHT;
 
-	VGA_Screen(){};
+	VGA_Screen();
 
 	/**
 	 * Write char c into the text buffer at position (x, y)
@@ -25,6 +35,20 @@ public:
      * fills the entire screen with the specified color c. 
      */
     void fill(char c);
+
+    void read_colour_palette();
+
+    void rgb_to_yuv(char r, char g, char b);
+
+    void yuv_to_rgb(char y, char u, char v);
+
+    /**
+     * converts colours from rgb colour space to the 13h colour palette
+     */
+    void rgb_to_13h(char r, char g, char b);
+    /*
+    
+    */
 };
 
 #endif
