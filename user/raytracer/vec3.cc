@@ -1,5 +1,3 @@
-
-
 #include "user/raytracer/vec3.h"
 
 #ifndef ISOLATE

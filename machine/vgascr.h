@@ -13,7 +13,7 @@ private:
     const IO_Port dac_read_mode_reg{0x3C7};
     const IO_Port dac_data_reg{0x3C9};
 
-    char colour_palette[256*3];
+    unsigned char colour_palette[256*3];
 
 	VGA_Screen(const VGA_Screen &copy); // prevent copying
 
@@ -29,26 +29,23 @@ public:
 	 * Write char c into the text buffer at position (x, y)
 	 * with attribute attrib.
 	 */
-	void show(int x, int y, char c);
+	void show(int x, int y, unsigned char c);
 
     /**
      * fills the entire screen with the specified color c. 
      */
-    void fill(char c);
+    void fill(unsigned char c);
 
     void read_colour_palette();
 
-    void rgb_to_yuv(char r, char g, char b);
+    void rgb_to_yuv(unsigned char r, unsigned char g, unsigned char b);
 
-    void yuv_to_rgb(char y, char u, char v);
+    void yuv_to_rgb(unsigned char y, unsigned char u, unsigned char v);
 
     /**
      * converts colours from rgb colour space to the 13h colour palette
      */
-    void rgb_to_13h(char r, char g, char b);
-    /*
-    
-    */
+    unsigned char match_colour(unsigned char r, unsigned char g, unsigned char b);
 };
 
 #endif

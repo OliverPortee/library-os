@@ -1,4 +1,3 @@
-
 #include "user/raytracer/vec3.h"
 
 #include <cassert>

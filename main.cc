@@ -17,11 +17,19 @@ int main() {
     //organizer.Scheduler::schedule();
     VGA_Screen scr;
 
-    int line = 100;
-    for (int i = 0; i < scr.PIXEL_WIDTH; i++)
+    // step through with gdb
+    for (unsigned char i = 0; i < 5; i++)
     {
-        scr.show(i,line,155);
+        scr.fill(i);
+        // 0: black
+        // 1: blue
+        // 2: green
+        // 3: cyan
+        // 4: red
     }
-        
+
+    // should fill the screen light blue
+    scr.fill(scr.match_colour(0x00, 0x1c, 0x71));
+            
     return 0;
 }

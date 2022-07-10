@@ -1,4 +1,3 @@
-
 #ifndef __vec3_h__
 #define __vec3_h__
 
