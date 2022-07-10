@@ -22,7 +22,7 @@
 # source-code files
 
 STARTUP_SOURCE = ./startup.asm
-CC_SOURCES = $(shell find . -name "*.cc")
+CC_SOURCES = $(shell find . -name "*.cc" -not -path "./test/*")
 C_SOURCES = $(shell find . -name "*.c")
 ASM_SOURCES = $(shell find ./machine -name "*.asm")
 
@@ -54,7 +54,7 @@ ASM = nasm
 QEMU ?= qemu-system-x86_64
 CC ?= gcc
 CXX ?= g++
-CFLAGS := $(CFLAGS) -m64 -mno-red-zone -Wall -Wno-write-strings -fno-stack-protector -nostdlib -mno-sse -I. -g #-DDEBUG
+CFLAGS := $(CFLAGS) -m64 -mno-red-zone -Wall -Wno-write-strings -fno-stack-protector -nostdlib -I. -g #-DDEBUG
 CXXFLAGS := $(CFLAGS) -Wno-non-virtual-dtor -fno-threadsafe-statics -fno-use-cxa-atexit -fno-rtti -fno-exceptions
 
 # enforce i386-pc grub variant also on EFI systems
