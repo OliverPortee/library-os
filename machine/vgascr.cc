@@ -9,6 +9,19 @@ void VGA_Screen::show(int x, int y, unsigned char c) {
     *pos = c;
 }
 
+// writes colour c to the current pixel, then increments current 
+void VGA_Screen::show_next(unsigned char c) {
+    *(VGA_BASE_ADDR + current_pixel_offset) = c;
+
+    if (current_pixel_offset < PIXEL_COUNT) {
+        // move to next pixel
+        current_pixel_offset += 1;   
+    } else {
+        // wrap around to first pixel
+        current_pixel_offset = 0;
+    }
+}
+
 void VGA_Screen::fill(unsigned char c) {
     char* pos = VGA_BASE_ADDR;
     int bytes_per_pixel = COLOUR_DEPTH / 8;

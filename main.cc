@@ -35,13 +35,14 @@ colour ray_colour(Ray ray) {
 }
 
 void render() {
+    // image properties
     const auto aspect_ratio = vga_scr.ASPECT_RATIO;
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
 
-    // Camera 
+    // camera setup 
     auto viewport_height = 2.0;
-    auto viewport_width = static_cast<int>(img_width / aspect_ratio);
+    auto viewport_width = aspect_ratio * viewport_height;
     auto focal_length = 1.0;
 
     Point3 cam_origin = Point3(0,0,0);              // position of the camera
@@ -50,9 +51,10 @@ void render() {
     Vec3 lower_left = cam_origin 
                     - horizontal/2 
                     - vertical/2 
-                    - Vec3(0,0,focal_length);
+                    - Vec3(0, 0, focal_length);
 
-    for (int j = img_height; j >= 0; --j)
+    // rendering
+    for (int j = img_height-1; j >= 0; --j)
     {
         for (int i = 0; i < img_width; ++i)
         {
@@ -65,14 +67,12 @@ void render() {
             
             struct Ray r{.origin=cam_origin, .direction=ray_dir};
             colour pixel_colour = ray_colour(r);
-            write_pixel(u,v,pixel_colour);       
+            write_pixel(pixel_colour);       
         }   
     }
 }
 
 int main() {
-    //render();
-
     Secure secure;
     cpu.enable_int();
     keyboard.plugin();
