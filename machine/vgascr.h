@@ -26,7 +26,7 @@ public:
     const int PIXEL_HEIGHT = 200;
     const int COLOUR_DEPTH = 8;
     const int PIXEL_COUNT = PIXEL_WIDTH * PIXEL_HEIGHT;
-    const float ASPECT_RATIO = (float)PIXEL_WIDTH / (float)PIXEL_HEIGHT;
+    const double ASPECT_RATIO = (double)PIXEL_WIDTH / (double)PIXEL_HEIGHT;
 
 	VGA_Screen();
 

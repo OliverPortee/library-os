@@ -1,22 +1,23 @@
 #include "device/keyboard.h"
 #include "device/watch.h"
 #include "guard/secure.h"
+#include "library/random.h"
 #include "machine/cpu.h"
+#include "machine/vgascr.h"
 #include "syscall/guarded_keyboard.h"
 #include "syscall/guarded_organizer.h"
 #include "user/appl.h"
-#include "machine/vgascr.h"
-#include "user/raytracer/utility.h"
-#include "user/raytracer/vec3.h"
-#include "user/raytracer/ray.h"
+#include "user/raytracer/camera.h"
 #include "user/raytracer/colour.h"
 #include "user/raytracer/hittable_list.h"
+#include "user/raytracer/ray.h"
 #include "user/raytracer/sphere.h"
+#include "user/raytracer/utility.h"
+#include "user/raytracer/vec3.h"
 
 void test_scr() {
     // step through with gdb
-    for (unsigned char i = 0; i < 5; i++)
-    {
+    for (unsigned char i = 0; i < 5; i++) {
         vga_scr.fill(i);
         // 0: black
         // 1: blue
@@ -25,69 +26,58 @@ void test_scr() {
         // 4: red
     }
 
-    struct byte_colour light_blue { 0x00, 0x1c, 0x71 };
+    struct byte_colour light_blue {
+        0x00, 0x1c, 0x71
+    };
     vga_scr.fill(vga_scr.match_colour(light_blue));
 }
 
-colour ray_colour(const Ray& ray, /*const?*/ Hittable& scene, int depth) {
+Color ray_color(const Ray& ray, /*const?*/ Hittable& scene, int depth) {
     HitInfo hit_info;
 
-    if (depth <= 0) return colour(0, 0, 0);
+    if (depth <= 0) return Color(0, 0, 0);
 
     if (scene.hit(ray, 0, INFINITY, hit_info)) {
         Point3 target = hit_info.point + hit_info.normal + Vec3::random_length_smaller_1();
         Ray new_ray = Ray { hit_info.point, target - hit_info.point };
-        return 0.5 * ray_colour(new_ray, scene, depth - 1);
+        return 0.5 * ray_color(new_ray, scene, depth - 1);
     } 
 
     Vec3 unit_dir = ray.direction.normalized();
-    auto t = 0.5*(unit_dir.y + 1.0);
-    return (1.0-t) * colour(1.0, 1.0, 1.0) 
-               + t * colour(0.0, 0.0, 0.0);
+    auto t = 0.5 * (unit_dir.y + 1.0);
+    return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.0, 0.0, 0.0);
 }
 
 void render() {
     // image properties
-    const auto aspect_ratio = vga_scr.ASPECT_RATIO;
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
     const int max_ray_recursion_depth = 50;
+    const int samples_per_pixel = 20;
 
     // scene (list of 3D objects)
     HittableList scene;
     Sphere s = Sphere(Point3(0.0, 0.0, -1.0), 0.5);
-    Sphere ground = Sphere(Point3(0.0, 100.5, -1.0), 100.0); 
+    Sphere ground = Sphere(Point3(0.0, 100.5, -1.0), 100.0);
     scene.add(s);
+    scene.add(ground);
 
-    // camera setup 
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
-    auto focal_length = 1.0;
-
-    Point3 cam_origin = Point3(0,0,0);              // position of the camera
-    Vec3 horizontal = Vec3(viewport_width, 0, 0);   // x axis
-    Vec3 vertical = Vec3(0, viewport_height, 0);    // y axis
-    Vec3 lower_left = cam_origin 
-                    - horizontal/2                  // half a screen left 
-                    - vertical/2                    // half a screen down
-                    - Vec3(0, 0, focal_length);     // one focal length away from the camera
+    Camera camera;
 
     // rendering
     for (int j = img_height-1; j >= 0; --j)
     {
         for (int i = 0; i < img_width; ++i)
         {
-            auto u = double(i) / (img_width-1);
-            auto v = double(j) / (img_height-1);
-            Vec3 ray_dir = lower_left               // lower left pixel of the screen   ┐   
-                         + u * horizontal           // offset in x direction            │ position of the sampled point
-                         + v * vertical             // offset in y direction            ┘  
-                         - cam_origin;              // get vector to camera origin
-            
-            struct Ray r{.origin=cam_origin, .direction=ray_dir};
-            colour pixel_colour = ray_colour(r, scene, max_ray_recursion_depth);
-            write_pixel(pixel_colour);       
-        }   
+            Color pixel_color(0, 0, 0);
+            for (int n = 0; n < samples_per_pixel; ++n) {
+                auto u = (i + random.random_double()) / (img_width - 1);
+                auto v = (j + random.random_double()) / (img_height - 1);
+                Ray r = camera.get_ray(u, v);
+                pixel_color += ray_color(r, scene, max_ray_recursion_depth);
+            }
+            write_pixel(pixel_color, samples_per_pixel);      
+        }
     }
 }
 
@@ -95,7 +85,7 @@ int main() {
     Secure secure;
     cpu.enable_int();
     keyboard.plugin();
-    //watch.windup();
+    // watch.windup();
 
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
