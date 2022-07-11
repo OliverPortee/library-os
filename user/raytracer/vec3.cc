@@ -13,7 +13,6 @@ void assert(bool b, const char* c) {
 }
 #endif
 
-namespace details {
 // source: https://stackoverflow.com/a/49991852
 double sqrt(double d) {
     assert(d >= 0, "sqrt of a negative number");
@@ -23,11 +22,10 @@ double sqrt(double d) {
     }
     return a;
 }
-}  // namespace details
 
 Vec3::Vec3(double x, double y, double z) : x{x}, y{y}, z{z} {}
 
-double Vec3::length() const { return details::sqrt(length_squared()); }
+double Vec3::length() const { return sqrt(length_squared()); }
 
 double Vec3::length_squared() const { return x * x + y * y + z * z; }
 

@@ -30,9 +30,7 @@ bool operator==(const Vec3& a, const Vec3& b);
 Vec3 cross(const Vec3& a, const Vec3& b);
 double dot(const Vec3& a, const Vec3& b);
 
-namespace details {
-    double sqrt(double d);
-}
+double sqrt(double d);
 
 using Point3 = Vec3;
 
