@@ -109,20 +109,20 @@ int main() {
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
     
+    /*
     struct byte_colour test_colour
     {
-        .r = 0xFF,
-        .g = 0x41,
-        .b = 0x00,
+        .r = 0x82,
+        .g = 0x9e,
+        .b = 0xff,
     };
     
     vga_scr.fill(vga_scr.match_colour(test_colour));
-
-    /*
+    */
+    
     // test_scr();
     render();
     cpu.halt();
-    */
 
     return 0;
 }

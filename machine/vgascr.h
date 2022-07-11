@@ -2,9 +2,7 @@
 #define __vga_screen_include__
 
 #include "machine/io_port.h"
-
-// RGB colour with 1 byte per component
-struct byte_colour { unsigned char r,g,b; };
+#include "user/raytracer/utility.h"
 
 class VGA_Screen
 {

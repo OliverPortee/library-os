@@ -1,5 +1,6 @@
 #include "machine/vgascr.h"
 #include "user/raytracer/vec3.h"
+#include "user/raytracer/vgacolours.h"
 
 VGA_Screen::VGA_Screen() { read_colour_palette(); }
 
@@ -35,18 +36,20 @@ void VGA_Screen::fill(unsigned char c) {
 }
 
 void VGA_Screen::read_colour_palette() {
-    // write index of first colour, it is supposed to 
-    // automatically advance after 3 read operations 
-    dac_read_mode_reg.outb(0x00);
+    // write index of first colour (==0), it is supposed to auto-increment
+    // to the next colour palette entry after 3 read operations 
+    dac_read_mode_reg.outb(0);
 
-    // for 256 colours with 3 components each (red, green, blue) 
+    // for 256 colours of the vga colour palette 
     for (int i = 0; i < 256; i++)
     {
-        colour_palette[i] = byte_colour {
-            .r = (unsigned char) dac_data_reg.inb(),
-            .g = (unsigned char) dac_data_reg.inb(),
-            .b = (unsigned char) dac_data_reg.inb()
+        struct byte_colour entry {
+            .r = (unsigned char) (dac_data_reg.inb()),
+            .g = (unsigned char) (dac_data_reg.inb()),
+            .b = (unsigned char) (dac_data_reg.inb())
         };
+
+        colour_palette[i] = entry;
     }
 }
 
@@ -105,7 +108,8 @@ unsigned char VGA_Screen::match_colour(byte_colour colour) {
 
     for (int i = 0; i < 256; i++)
     {   
-        unsigned dist = manhattan_dist(colour, colour_palette[i]);
+
+        unsigned dist = manhattan_dist(colour, vga_colour_palette[i]);
 
         if (dist == 0) { return i; }
         else if (dist < min_dist) 
