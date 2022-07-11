@@ -31,7 +31,7 @@ colour ray_colour(Ray ray) {
     Vec3 unit_dir = ray.direction.normalized();
     auto t = 0.5*(unit_dir.y + 1.0);
     return (1.0-t) * colour(1.0, 1.0, 1.0) 
-               + t * colour(0.0, 0.0, 1.0);
+               + t * colour(0.0, 0.0, 0.0);
 }
 
 void render() {
@@ -49,9 +49,9 @@ void render() {
     Vec3 horizontal = Vec3(viewport_width, 0, 0);   // x axis
     Vec3 vertical = Vec3(0, viewport_height, 0);    // y axis
     Vec3 lower_left = cam_origin 
-                    - horizontal/2 
-                    - vertical/2 
-                    - Vec3(0, 0, focal_length);
+                    - horizontal/2                  // half a screen left 
+                    - vertical/2                    // half a screen down
+                    - Vec3(0, 0, focal_length);     // one focal length away from the camera
 
     // rendering
     for (int j = img_height-1; j >= 0; --j)
@@ -60,10 +60,10 @@ void render() {
         {
             auto u = double(i) / (img_width-1);
             auto v = double(j) / (img_height-1);
-            Vec3 ray_dir = lower_left 
-                         + u * horizontal
-                         + v * vertical 
-                         - cam_origin;
+            Vec3 ray_dir = lower_left               // lower left pixel of the screen   ┐   
+                         + u * horizontal           // offset in x direction            │ position of the sampled point
+                         + v * vertical             // offset in y direction            ┘  
+                         - cam_origin;              // get vector to camera origin
             
             struct Ray r{.origin=cam_origin, .direction=ray_dir};
             colour pixel_colour = ray_colour(r);
