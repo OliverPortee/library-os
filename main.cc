@@ -29,21 +29,6 @@ void test_scr() {
     vga_scr.fill(vga_scr.match_colour(light_blue));
 }
 
-/*
-double hit_sphere(const Point3& center, double radius, const Ray& r) {
-    Vec3 oc = r.origin - center;
-    auto a = r.direction.length_squared();
-    auto half_b = dot(oc, r.direction);
-    auto c = oc.length_squared() - radius*radius;
-    auto discriminant = half_b*half_b - a*c;
-    if (discriminant < 0) { return -1.0; }
-    else {
-        return (-half_b - sqrt(discriminant)) / a; 
-    }
-
-} 
-*/
-
 colour ray_colour(const Ray& ray, /*const?*/ Hittable& scene) {
     HitInfo hit_info;
     if (scene.hit(ray, 0, INFINITY, hit_info)) {
@@ -108,17 +93,6 @@ int main() {
 
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
-    
-    /*
-    struct byte_colour test_colour
-    {
-        .r = 0x82,
-        .g = 0x9e,
-        .b = 0xff,
-    };
-    
-    vga_scr.fill(vga_scr.match_colour(test_colour));
-    */
     
     // test_scr();
     render();
