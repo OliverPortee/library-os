@@ -14,7 +14,7 @@ bool close(double is, double should) {
 }
 
 int main() {
-    assert(close(details::sqrt(7676), std::sqrt(7676)));
+    assert(close(sqrt(7676), std::sqrt(7676)));
     Vec3 v1{3, 4, 5};
     Vec3 v2{8, -7, -1};
     assert(v1.length_squared() == 50);
