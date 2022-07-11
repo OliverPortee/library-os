@@ -48,4 +48,6 @@ public:
     unsigned char match_colour(unsigned char r, unsigned char g, unsigned char b);
 };
 
+extern VGA_Screen vga_scr;
+
 #endif

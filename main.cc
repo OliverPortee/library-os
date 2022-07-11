@@ -7,20 +7,11 @@
 #include "user/appl.h"
 #include "machine/vgascr.h"
 
-int main() {
-    Secure secure;
-    cpu.enable_int();
-    keyboard.plugin();
-    //watch.windup();
-
-    //organizer.Organizer::ready(app);
-    //organizer.Scheduler::schedule();
-    VGA_Screen scr;
-
+void test_scr() {
     // step through with gdb
     for (unsigned char i = 0; i < 5; i++)
     {
-        scr.fill(i);
+        vga_scr.fill(i);
         // 0: black
         // 1: blue
         // 2: green
@@ -30,7 +21,21 @@ int main() {
 
     // should fill the screen light blue
     // scr.fill((unsigned char) (365.0 / 13.0));
-    scr.fill(scr.match_colour(0x00, 0x1c, 0x71));
+    vga_scr.fill(vga_scr.match_colour(0x00, 0x1c, 0x71));
+}
 
+void render() {
+
+}
+
+int main() {
+    Secure secure;
+    cpu.enable_int();
+    keyboard.plugin();
+    //watch.windup();
+
+    //organizer.Organizer::ready(app);
+    //organizer.Scheduler::schedule();
+    test_scr();    
     return 0;
 }

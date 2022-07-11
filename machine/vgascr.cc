@@ -86,3 +86,5 @@ unsigned char VGA_Screen::match_colour(unsigned char r, unsigned char g, unsigne
 
     return min_index;
 }
+
+VGA_Screen vga_scr{};
