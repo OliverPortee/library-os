@@ -20,7 +20,6 @@ Semaphore::Semaphore(int c) : count{c} {}
 void Semaphore::p() {
     if (count > 0) {
         count--;
-        return;
     } else {
         // block active process
         auto* customer = static_cast<Customer*>(organizer.active());
