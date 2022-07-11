@@ -15,14 +15,10 @@
 Organizer::Organizer() {}
 
 void Organizer::block(Customer& customer, Waitingroom& waitingroom) {
+    assert(active() == &customer, "Organizer::block on other customer");
     waitingroom.enqueue(&customer);
     customer.waiting_in(&waitingroom);
-    // TODO: use Scheduler::kill for that
-    if (active() == &customer) {
-        exit();
-    } else {
-        queue.remove(&customer);
-    }
+    exit();
 }
 
 void Organizer::wakeup(Customer& customer) {
