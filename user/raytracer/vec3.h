@@ -20,7 +20,7 @@ struct Vec3 {
     Vec3& operator/=(double d);
     void normalize();
 
-    static Vec3 from_random();
+    static Vec3 random_length_smaller_1();
 };
 
 Vec3 operator+(const Vec3& a, const Vec3& b);
