@@ -65,9 +65,17 @@ Vec3& Vec3::operator/=(double d) {
 
 void Vec3::normalize() { operator/=(length()); }
 
-Vec3 Vec3::from_random() {
-    return Vec3{random.random_double(), random.random_double(),
-                random.random_double()};
+Vec3 random_vec(double min, double max) {
+    return Vec3{random.random_double(min, max), random.random_double(min, max),
+                random.random_double(min, max)};
+}
+
+Vec3 Vec3::random_length_smaller_1() {
+    Vec3 result;
+    do {
+        result = random_vec(-1, 1);
+    } while (result.length_squared() >= 1.0);
+    return result;
 }
 
 Vec3 operator+(const Vec3& a, const Vec3& b) {
