@@ -29,10 +29,15 @@ void test_scr() {
     vga_scr.fill(vga_scr.match_colour(light_blue));
 }
 
-colour ray_colour(const Ray& ray, /*const?*/ Hittable& scene) {
+colour ray_colour(const Ray& ray, /*const?*/ Hittable& scene, int depth) {
     HitInfo hit_info;
+
+    if (depth <= 0) return colour(0, 0, 0);
+
     if (scene.hit(ray, 0, INFINITY, hit_info)) {
-        return 0.5 * (hit_info.normal + colour(1.0, 1.0, 1.0));
+        Point3 target = hit_info.point + hit_info.normal + Vec3::random_length_smaller_1();
+        Ray new_ray = Ray { hit_info.point, target - hit_info.point };
+        return 0.5 * ray_colour(new_ray, scene, depth - 1);
     } 
 
     Vec3 unit_dir = ray.direction.normalized();
@@ -46,6 +51,7 @@ void render() {
     const auto aspect_ratio = vga_scr.ASPECT_RATIO;
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
+    const int max_ray_recursion_depth = 50;
 
     // scene (list of 3D objects)
     HittableList scene;
@@ -79,7 +85,7 @@ void render() {
                          - cam_origin;              // get vector to camera origin
             
             struct Ray r{.origin=cam_origin, .direction=ray_dir};
-            colour pixel_colour = ray_colour(r, scene);
+            colour pixel_colour = ray_colour(r, scene, max_ray_recursion_depth);
             write_pixel(pixel_colour);       
         }   
     }
