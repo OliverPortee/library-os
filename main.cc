@@ -31,7 +31,7 @@ colour ray_colour(Ray ray) {
     Vec3 unit_dir = ray.direction.normalized();
     auto t = 0.5*(unit_dir.y + 1.0);
     return (1.0-t) * colour(1.0, 1.0, 1.0) 
-               + t * colour(0.5, 0.7, 1.0);
+               + t * colour(0.0, 0.0, 1.0);
 }
 
 void render() {
