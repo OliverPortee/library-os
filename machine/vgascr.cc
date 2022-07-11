@@ -53,28 +53,6 @@ void VGA_Screen::read_colour_palette() {
     }
 }
 
-// UNUSED
-// transformations between YUV and RGB colour spaces according to:
-// https://en.wikipedia.org/wiki/YUV#Y%E2%80%B2UV444_to_RGB888_conversion
-void VGA_Screen::rgb_to_yuv(unsigned char r, unsigned char g, unsigned char b) {
-    int y = ((66*r + 129*g + 25*b + 128) >> 8) + 16;
-    int u = ((-38*r - 74*g - 112*b + 128) >> 8) + 128;
-    int v = ((112*r - 94*g - 18*b + 128) >> 8) + 128;
-}
-
-// UNUSED
-void VGA_Screen::yuv_to_rgb(unsigned char y, unsigned char u, unsigned char v) {
-    unsigned char c = y - 16;
-    unsigned char d = u - 128;
-    unsigned char e = v - 128;
-
-    // TODO: clamp these to 0-255
-    unsigned char r = (298*c + 409*e + 128) >> 8;
-    unsigned char g = (298*c - 100*d - 208*e + 128) >> 8;
-    unsigned char b = (298*c + 516*d + 128) >> 8;
-}
- 
-
 int abs(int x) {
     if (x >= 0) return x;
     else return -x;    
