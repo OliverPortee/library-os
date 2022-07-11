@@ -16,6 +16,7 @@ void VGA_Screen::fill(unsigned char c) {
     for (int i = 0; i < num_pixels*bytes_per_pixel; i++)
     {
         *pos = c;
+    //scr.fill((unsigned char) (365.0 / 13.0));
         pos += 1; 
     }
 }

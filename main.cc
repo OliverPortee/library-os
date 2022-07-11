@@ -29,7 +29,8 @@ int main() {
     }
 
     // should fill the screen light blue
+    // scr.fill((unsigned char) (365.0 / 13.0));
     scr.fill(scr.match_colour(0x00, 0x1c, 0x71));
-            
+
     return 0;
 }

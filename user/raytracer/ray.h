@@ -5,13 +5,13 @@
 
 class ray {
     public: 
-        point3 origin;
-        point3 direction;
+    Vec3 origin;
+    Vec3 direction;
     
-    point3 origin() const { return origin; }
-    vec3 direction() const { return direction; }
+    Vec3 origin() const { return origin; }
+    Vec3 direction() const { return direction; }
 
-    point3 at(double t) const { 
+    Vec3 at(double t) const { 
         return origin + t * direction;
     }
 };
