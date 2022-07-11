@@ -1,4 +1,8 @@
 
+
+#ifndef __SPHERE_H__
+#define __SPHERE_H__
+
 #include "hittable.h"
 #include "vec3.h"
 
@@ -12,3 +16,5 @@ struct Sphere : public Hittable {
     Point3 center;
     double radius;
 };
+
+#endif
