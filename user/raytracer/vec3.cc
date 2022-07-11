@@ -1,6 +1,7 @@
 #include "user/raytracer/vec3.h"
 
 #ifndef ISOLATE
+#include "library/random.h"
 #include "object/assert.h"
 #else
 #include <iostream>
@@ -63,6 +64,11 @@ Vec3& Vec3::operator/=(double d) {
 }
 
 void Vec3::normalize() { operator/=(length()); }
+
+Vec3 Vec3::from_random() {
+    return Vec3{random.random_double(), random.random_double(),
+                random.random_double()};
+}
 
 Vec3 operator+(const Vec3& a, const Vec3& b) {
     return Vec3(a.x + b.x, a.y + b.y, a.z + b.z);

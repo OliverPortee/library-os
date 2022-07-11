@@ -19,6 +19,8 @@ struct Vec3 {
     Vec3& operator*=(double d);
     Vec3& operator/=(double d);
     void normalize();
+
+    static Vec3 from_random();
 };
 
 Vec3 operator+(const Vec3& a, const Vec3& b);
