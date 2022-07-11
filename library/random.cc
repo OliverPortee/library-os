@@ -59,7 +59,8 @@ double Random::random_double() {
     return static_cast<double>(random_int()) / static_cast<double>(INT_MAX + 1);
 }
 
-
 double Random::random_double(double min_incl, double max_excl) {
 	return min_incl + (max_excl - min_incl) * random_double();
 }
+
+Random random{99};

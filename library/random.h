@@ -29,4 +29,6 @@ public:
 	double random_double(double min_incl, double max_excl);
 };
 
+extern Random random;
+
 #endif
