@@ -37,8 +37,8 @@ Color ray_color(const Ray& ray, /*const?*/ Hittable& scene, int depth) {
 
     if (depth <= 0) return Color(0, 0, 0);
 
-    if (scene.hit(ray, 0, INFINITY, hit_info)) {
-        Point3 target = hit_info.point + hit_info.normal + Vec3::random_length_smaller_1();
+    if (scene.hit(ray, 0.001, INFINITY, hit_info)) {
+        Point3 target = hit_info.point + hit_info.normal + Vec3::random_unit_vec();
         Ray new_ray = Ray { hit_info.point, target - hit_info.point };
         return 0.5 * ray_color(new_ray, scene, depth - 1);
     } 
