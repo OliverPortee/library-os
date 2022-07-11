@@ -6,9 +6,12 @@
 #include "syscall/guarded_organizer.h"
 #include "user/appl.h"
 #include "machine/vgascr.h"
+#include "user/raytracer/utility.h"
 #include "user/raytracer/vec3.h"
 #include "user/raytracer/ray.h"
 #include "user/raytracer/colour.h"
+#include "user/raytracer/hittable_list.h"
+#include "user/raytracer/sphere.h"
 
 void test_scr() {
     // step through with gdb
@@ -22,12 +25,31 @@ void test_scr() {
         // 4: red
     }
 
-    // should fill the screen light blue
-    // scr.fill((unsigned char) (365.0 / 13.0));
-    vga_scr.fill(vga_scr.match_colour(0x00, 0x1c, 0x71));
+    struct byte_colour light_blue { 0x00, 0x1c, 0x71 };
+    vga_scr.fill(vga_scr.match_colour(light_blue));
 }
 
-colour ray_colour(Ray ray) {
+/*
+double hit_sphere(const Point3& center, double radius, const Ray& r) {
+    Vec3 oc = r.origin - center;
+    auto a = r.direction.length_squared();
+    auto half_b = dot(oc, r.direction);
+    auto c = oc.length_squared() - radius*radius;
+    auto discriminant = half_b*half_b - a*c;
+    if (discriminant < 0) { return -1.0; }
+    else {
+        return (-half_b - sqrt(discriminant)) / a; 
+    }
+
+} 
+*/
+
+colour ray_colour(const Ray& ray, /*const?*/ Hittable& scene) {
+    HitInfo hit_info;
+    if (scene.hit(ray, 0, INFINITY, hit_info)) {
+        return 0.5 * (hit_info.normal + colour(1.0, 1.0, 1.0));
+    } 
+
     Vec3 unit_dir = ray.direction.normalized();
     auto t = 0.5*(unit_dir.y + 1.0);
     return (1.0-t) * colour(1.0, 1.0, 1.0) 
@@ -39,6 +61,12 @@ void render() {
     const auto aspect_ratio = vga_scr.ASPECT_RATIO;
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
+
+    // scene (list of 3D objects)
+    HittableList scene;
+    Sphere s = Sphere(Point3(0.0, 0.0, -1.0), 0.5);
+    Sphere ground = Sphere(Point3(0.0, 100.5, -1.0), 100.0); 
+    scene.add(s);
 
     // camera setup 
     auto viewport_height = 2.0;
@@ -66,7 +94,7 @@ void render() {
                          - cam_origin;              // get vector to camera origin
             
             struct Ray r{.origin=cam_origin, .direction=ray_dir};
-            colour pixel_colour = ray_colour(r);
+            colour pixel_colour = ray_colour(r, scene);
             write_pixel(pixel_colour);       
         }   
     }

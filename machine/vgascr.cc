@@ -1,4 +1,5 @@
 #include "machine/vgascr.h"
+#include "user/raytracer/vec3.h"
 
 VGA_Screen::VGA_Screen() { read_colour_palette(); }
 
@@ -67,26 +68,48 @@ void VGA_Screen::yuv_to_rgb(unsigned char y, unsigned char u, unsigned char v) {
     unsigned char g = (298*c - 100*d - 208*e + 128) >> 8;
     unsigned char b = (298*c + 516*d + 128) >> 8;
 }
+ 
 
 int abs(int x) {
     if (x >= 0) return x;
     else return -x;    
 }
 
+inline unsigned int square(int x) {
+    return x*x;
+}
+
+// returns the manhattan distance between two colour vectors
+unsigned int manhattan_dist(byte_colour& col1, byte_colour& col2) {
+    return  abs(col1.r - col2.r) + 
+            abs(col1.g - col2.g) + 
+            abs(col1.b - col2.b);
+}
+
+// returns the euclidean distance between two colour vectors
+unsigned int euclidean_dist(byte_colour& col1, byte_colour& col2) {
+    unsigned int sum_of_squares = square(col1.r - col2.r);
+    sum_of_squares += square(col1.g - col2.g);
+    sum_of_squares += square(col1.b - col2.b);
+    return sqrt(sum_of_squares);
+}
+
 /**
  * matches an rgb colour to a colour in the mode 13h palette
  */
-unsigned char VGA_Screen::match_colour(unsigned char r, unsigned char g, unsigned char b) {
+unsigned char VGA_Screen::match_colour(byte_colour colour) {
     unsigned int min_dist = 0xffffffff; // == UINT_MAX
     unsigned char min_index = 0;
 
     for (int i = 0; i < 256*3; i += 3)
     {
-        // manhattan distance (use euclidean distance, when possible)
-        unsigned int dist = 0;
-        dist += abs((r-colour_palette[i]));
-        dist += abs((g-colour_palette[i+1]));
-        dist += abs((b-colour_palette[i+2]));
+        byte_colour vgacol {
+            .r = colour_palette[i],
+            .g = colour_palette[i+1],
+            .b = colour_palette[i+2]
+        };
+        
+        unsigned dist = manhattan_dist(colour, vgacol);
 
         if (dist == 0) { return (unsigned char) i / 3; }
         else if (dist < min_dist) 

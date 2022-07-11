@@ -3,6 +3,9 @@
 
 #include "machine/io_port.h"
 
+// RGB colour with 1 byte per component
+struct byte_colour { unsigned char r,g,b; };
+
 class VGA_Screen
 {
 private:
@@ -49,9 +52,9 @@ public:
     void yuv_to_rgb(unsigned char y, unsigned char u, unsigned char v);
 
     /**
-     * converts colours from rgb colour space to the 13h colour palette
+     * finds the closest(tm) match for an rgb colour in the 13h colour palette
      */
-    unsigned char match_colour(unsigned char r, unsigned char g, unsigned char b);
+    unsigned char match_colour(byte_colour colour);
 };
 
 extern VGA_Screen vga_scr;
