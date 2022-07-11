@@ -47,7 +47,7 @@ void render() {
     // image properties
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
-    const int samples_per_pixel = 100;
+    const int samples_per_pixel = 20;
 
     // scene (list of 3D objects)
     HittableList scene;

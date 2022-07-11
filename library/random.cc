@@ -53,10 +53,10 @@ int Random::random_int() {
     return t ^ ((s >> 8) & 0xffffff);
 }
 
-const int INT_MAX = 0x7fff'ffff;
+const int RAND_MAX = 0xffffff;
 
 double Random::random_double() {
-    return static_cast<double>(random_int()) / static_cast<double>(INT_MAX + 1);
+    return static_cast<double>(random_int()) / static_cast<double>(RAND_MAX + 1);
 }
 
 double Random::random_double(double min_incl, double max_excl) {
