@@ -34,4 +34,6 @@ namespace details {
     double sqrt(double d);
 }
 
+using Point3 = Vec3;
+
 #endif
