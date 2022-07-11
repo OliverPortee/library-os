@@ -9,6 +9,12 @@ struct HitInfo {
     Point3 point;
     Vec3 normal;
     double t;
+    bool hit_front_face;
+
+    void set_normal(const Ray& ray, const Vec3& outward_normal) {
+        hit_front_face = dot(ray.direction, outward_normal) < 0;
+        normal = hit_front_face ? outward_normal : -outward_normal;
+    }
 };
 
 struct Hittable {
