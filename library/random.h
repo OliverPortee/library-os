@@ -23,7 +23,10 @@ public:
 	Random(int seed);
 
 	// NUMBER: Returns a random number
-	int number();
+	int random_int();
+
+	double random_double();
+	double random_double(double min_incl, double max_excl);
 };
 
 #endif
