@@ -19,7 +19,7 @@ private:
     const IO_Port dac_read_mode_reg{0x3C7};
     const IO_Port dac_data_reg{0x3C9};
 
-    unsigned char colour_palette[256*3];
+    byte_colour colour_palette[256];
 
 	VGA_Screen(const VGA_Screen &copy); // prevent copying
 

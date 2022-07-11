@@ -40,11 +40,19 @@ void VGA_Screen::read_colour_palette() {
     dac_read_mode_reg.outb(0x00);
 
     // for 256 colours with 3 components each (red, green, blue) 
-    for (int i = 0; i < 256*3; i += 3)
+    for (int i = 0; i < 256; i++)
     {
+        colour_palette[i] = byte_colour {
+            .r = (unsigned char) dac_data_reg.inb(),
+            .g = (unsigned char) dac_data_reg.inb(),
+            .b = (unsigned char) dac_data_reg.inb()
+        };
+
+        /*
         colour_palette[i] = dac_data_reg.inb();      // red
         colour_palette[i+1] = dac_data_reg.inb();    // green
         colour_palette[i+2] = dac_data_reg.inb();    // blue
+        */
     }
 }
 
@@ -101,21 +109,15 @@ unsigned char VGA_Screen::match_colour(byte_colour colour) {
     unsigned int min_dist = 0xffffffff; // == UINT_MAX
     unsigned char min_index = 0;
 
-    for (int i = 0; i < 256*3; i += 3)
-    {
-        byte_colour vgacol {
-            .r = colour_palette[i],
-            .g = colour_palette[i+1],
-            .b = colour_palette[i+2]
-        };
-        
-        unsigned dist = manhattan_dist(colour, vgacol);
+    for (int i = 0; i < 256; i++)
+    {   
+        unsigned dist = manhattan_dist(colour, colour_palette[i]);
 
-        if (dist == 0) { return (unsigned char) i / 3; }
+        if (dist == 0) { return i; }
         else if (dist < min_dist) 
         {
             min_dist = dist;
-            min_index = (unsigned char) (i / 3);
+            min_index = i;
         }
     }
 

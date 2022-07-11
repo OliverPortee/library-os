@@ -108,10 +108,21 @@ int main() {
 
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
-    //test_scr();
+    
+    struct byte_colour test_colour
+    {
+        .r = 0xFF,
+        .g = 0x41,
+        .b = 0x00,
+    };
+    
+    vga_scr.fill(vga_scr.match_colour(test_colour));
 
+    /*
+    // test_scr();
     render();
     cpu.halt();
+    */
 
     return 0;
 }
