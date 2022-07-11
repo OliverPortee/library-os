@@ -6,6 +6,9 @@
 #include "syscall/guarded_organizer.h"
 #include "user/appl.h"
 #include "machine/vgascr.h"
+#include "user/raytracer/vec3.h"
+#include "user/raytracer/ray.h"
+#include "user/raytracer/colour.h"
 
 void test_scr() {
     // step through with gdb
@@ -24,11 +27,53 @@ void test_scr() {
     vga_scr.fill(vga_scr.match_colour(0x00, 0x1c, 0x71));
 }
 
-void render() {
+colour ray_colour(Ray ray) {
+    Vec3 unit_dir = ray.direction.normalized();
+    auto t = 0.5*(unit_dir.y + 1.0);
+    return (1.0-t) * colour(1.0, 1.0, 1.0) 
+               + t * colour(0.5, 0.7, 1.0);
+}
 
+void render() {
+    const auto aspect_ratio = vga_scr.ASPECT_RATIO;
+    const int img_width = vga_scr.PIXEL_WIDTH;
+    const int img_height = vga_scr.PIXEL_HEIGHT;
+
+    // Camera 
+    auto viewport_height = 2.0;
+    auto viewport_width = static_cast<int>(img_width / aspect_ratio);
+    auto focal_length = 1.0;
+
+    Point3 cam_origin = Point3(0,0,0);              // position of the camera
+    Vec3 horizontal = Vec3(viewport_width, 0, 0);   // x axis
+    Vec3 vertical = Vec3(0, viewport_height, 0);    // y axis
+    Vec3 lower_left = cam_origin 
+                    - horizontal/2 
+                    - vertical/2 
+                    - Vec3(0,0,focal_length);
+
+    for (int j = img_height; j >= 0; --j)
+    {
+        for (int i = 0; i < img_width; ++i)
+        {
+            auto u = double(i) / (img_width-1);
+            auto v = double(j) / (img_height-1);
+            Vec3 ray_dir = lower_left 
+                         + u * horizontal
+                         + v * vertical 
+                         - cam_origin;
+            
+            struct Ray r{.origin=cam_origin, .direction=ray_dir};
+            colour pixel_colour = ray_colour(r);
+            write_pixel(u,v,pixel_colour);       
+        }   
+    }
 }
 
 int main() {
+    render();
+
+    /*
     Secure secure;
     cpu.enable_int();
     keyboard.plugin();
@@ -36,6 +81,7 @@ int main() {
 
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
-    test_scr();    
+    test_scr();
+    */    
     return 0;
 }
