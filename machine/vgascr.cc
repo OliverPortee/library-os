@@ -3,7 +3,7 @@
 VGA_Screen::VGA_Screen() { read_colour_palette(); }
 
 void VGA_Screen::show(int x, int y, unsigned char c) {
-    if (x > PIXEL_WIDTH || y < PIXEL_HEIGHT || x < 0 || y < 0) return;
+    if (x > PIXEL_WIDTH || y > PIXEL_HEIGHT || x < 0 || y < 0) return;
     
     char* pos = VGA_BASE_ADDR + (x + y * PIXEL_WIDTH);
     *pos = c;
@@ -16,7 +16,6 @@ void VGA_Screen::fill(unsigned char c) {
     for (int i = 0; i < num_pixels*bytes_per_pixel; i++)
     {
         *pos = c;
-    //scr.fill((unsigned char) (365.0 / 13.0));
         pos += 1; 
     }
 }

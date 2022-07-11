@@ -71,9 +71,8 @@ void render() {
 }
 
 int main() {
-    render();
+    //render();
 
-    /*
     Secure secure;
     cpu.enable_int();
     keyboard.plugin();
@@ -81,7 +80,10 @@ int main() {
 
     //organizer.Organizer::ready(app);
     //organizer.Scheduler::schedule();
-    test_scr();
-    */    
+    //test_scr();
+
+    render();
+    cpu.halt();
+
     return 0;
 }
