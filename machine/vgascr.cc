@@ -47,12 +47,6 @@ void VGA_Screen::read_colour_palette() {
             .g = (unsigned char) dac_data_reg.inb(),
             .b = (unsigned char) dac_data_reg.inb()
         };
-
-        /*
-        colour_palette[i] = dac_data_reg.inb();      // red
-        colour_palette[i+1] = dac_data_reg.inb();    // green
-        colour_palette[i+2] = dac_data_reg.inb();    // blue
-        */
     }
 }
 
