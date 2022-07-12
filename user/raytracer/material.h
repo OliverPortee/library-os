@@ -47,4 +47,25 @@ class Metal : public Material {
     Color albedo;
 };
 
+class Dielectric : public Material {
+   public:
+    Dielectric(double index_of_refraction) : ior(index_of_refraction) {}
+
+    virtual bool scatter(const Ray& ray_in, const HitInfo& hit_info,
+                         Color& attenuation, Ray& scattered) const override {
+        attenuation = Color(1.0, 1.0, 1.0);
+        double refraction_ratio = hit_info.hit_front_face ? (1.0 / ior) : ior;
+
+        Vec3 normalized_dir = ray_in.direction.normalized();
+        Vec3 refracted = Vec3::refract(normalized_dir, hit_info.normal, refraction_ratio);
+
+        scattered = Ray(hit_info.point, refracted);
+        return true;
+    }
+
+   public:  
+    // the index of refraction
+    double ior;
+};
+
 #endif

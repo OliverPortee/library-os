@@ -76,6 +76,20 @@ Vec3 Vec3::reflect(const Vec3& normal) const {
     return (*this) - 2 * dot(*this, normal) * normal;
 }
 
+Vec3 Vec3::refract(const Vec3& uv, const Vec3& normal, double etai_over_etat) {
+    auto cosine_theta = 1.0;
+    double dotp = dot(-uv, normal);
+
+    if (dotp < cosine_theta) cosine_theta = dotp; 
+
+    // parts of the refracted ray (ray prime) that are perpendicular to the normal (n prime) 
+    Vec3 refrac_ray_perpendicular = etai_over_etat * (uv + cosine_theta * normal);
+    // parts of the refracted ray (ray prime) that are parallel to the normal (n prime) 
+    Vec3 refrac_ray_parallel = -sqrt(ABS(1.0 - refrac_ray_perpendicular.length_squared())) * normal;
+
+    return refrac_ray_parallel + refrac_ray_perpendicular;
+}
+
 Vec3 random_vec(double min, double max) {
     return Vec3{random.random_double(min, max), random.random_double(min, max),
                 random.random_double(min, max)};
