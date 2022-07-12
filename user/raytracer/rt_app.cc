@@ -53,7 +53,7 @@ void Raytracer::render() {
     Metal mat_right{Color(0.8, 0.6, 0.2), 0.5};
     Dielectric mat_glass{1.45};
 
-    Sphere left{Point3(-1, 0, -1), -0.4, &mat_glass};
+    Sphere left{Point3(-1, 0, -1), 0.4, &mat_glass};
     Sphere center{Point3(0, 0, -1), 0.5, &mat_center};
     Sphere right{Point3(1, 0, -1), 0.5, &mat_right};
     Sphere ground{Point3(0.0, -100.5, -1.0), 100.0, &mat_ground};
