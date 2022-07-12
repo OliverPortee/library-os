@@ -57,9 +57,19 @@ class Dielectric : public Material {
         double refraction_ratio = hit_info.hit_front_face ? (1.0 / ior) : ior;
 
         Vec3 normalized_dir = ray_in.direction.normalized();
-        Vec3 refracted = Vec3::refract(normalized_dir, hit_info.normal, refraction_ratio);
+        
+        double dotp = dot(-normalized_dir, hit_info.normal);
+        double cos_theta = (dotp < 1.0) ? dotp : 1.0; 
+        double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
+        bool cannot_refract = refraction_ratio * sin_theta > 1;
+        Vec3 direction;
 
-        scattered = Ray(hit_info.point, refracted);
+        if (cannot_refract) 
+            direction = normalized_dir.reflect(hit_info.normal);
+        else 
+            direction = normalized_dir.refract(hit_info.normal, refraction_ratio);
+
+        scattered = Ray(hit_info.point, direction);
         return true;
     }
 

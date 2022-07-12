@@ -21,8 +21,8 @@ struct Vec3 {
     void normalize();
     bool near_zero() const;
     Vec3 reflect(const Vec3& normal) const;
+    Vec3 refract(const Vec3& normal, double etai_over_etat);
 
-    static Vec3 refract(const Vec3& uv, const Vec3& normal, double etai_over_etat);
     static Vec3 random_length_smaller_1();
     inline static Vec3 random_unit_vec() {
         return random_length_smaller_1().normalized();

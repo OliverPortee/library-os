@@ -76,10 +76,11 @@ Vec3 Vec3::reflect(const Vec3& normal) const {
     return (*this) - 2 * dot(*this, normal) * normal;
 }
 
-Vec3 Vec3::refract(const Vec3& uv, const Vec3& normal, double etai_over_etat) {
+Vec3 Vec3::refract(const Vec3& normal, double etai_over_etat) {
+    Vec3 uv = *this;
     auto cosine_theta = 1.0;
     double dotp = dot(-uv, normal);
-
+    // assign cosine_theta the minimum of 1.0 and dot(-uv, normal)
     if (dotp < cosine_theta) cosine_theta = dotp; 
 
     // parts of the refracted ray (ray prime) that are perpendicular to the normal (n prime) 
