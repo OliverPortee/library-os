@@ -21,7 +21,9 @@ struct Vec3 {
     void normalize();
 
     static Vec3 random_length_smaller_1();
-    inline static Vec3 random_unit_vec() { random_length_smaller_1().normalized(); }
+    inline static Vec3 random_unit_vec() {
+        return random_length_smaller_1().normalized();
+    }
 };
 
 Vec3 operator+(const Vec3& a, const Vec3& b);
