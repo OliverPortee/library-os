@@ -24,6 +24,15 @@ double sqrt(double d) {
     return a;
 }
 
+double power(double base, int exp) {
+    double result = base;
+    for (int i = 0; i < exp; i++)
+    {
+        result *= base;
+    }
+    return result;   
+}
+
 #define ABS(x) ((x) < 0 ? -(x) : (x))
 
 Vec3::Vec3(double x, double y, double z) : x{x}, y{y}, z{z} {}

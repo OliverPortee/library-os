@@ -6,6 +6,7 @@
 #include "vec3.h"
 #include "hittable.h"
 #include "object/assert.h"
+#include "library/random.h"
 
 struct HitInfo;
 
@@ -66,9 +67,9 @@ class Dielectric : public Material {
         double cos_theta = (dotp < 1.0) ? dotp : 1.0; 
         double sin_theta = sqrt(1.0 - cos_theta * cos_theta);
         bool cannot_refract = refraction_ratio * sin_theta > 1;
+        
         Vec3 direction;
-
-        if (cannot_refract) 
+        if (cannot_refract || reflectance(cos_theta, refraction_ratio) > random.random_double()) 
             direction = normalized_dir.reflect(hit_info.normal);
         else 
             direction = normalized_dir.refract(hit_info.normal, refraction_ratio);
@@ -80,6 +81,14 @@ class Dielectric : public Material {
    public:  
     // the index of refraction
     double ior;
+
+   private:
+    static double reflectance(double cosine, double ref_idx) {
+        // Schlick's approximation of reflectance
+        auto r0 = (1 - ref_idx) / (1 + ref_idx);
+        r0 *= r0; // square
+        return r0 + (1 - r0) * power((1 - cosine), 5);
+    }
 };
 
 #endif

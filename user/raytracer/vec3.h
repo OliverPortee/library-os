@@ -40,6 +40,7 @@ Vec3 cross(const Vec3& a, const Vec3& b);
 double dot(const Vec3& a, const Vec3& b);
 
 double sqrt(double d);
+double power(double base, int exp);
 
 using Point3 = Vec3;
 
