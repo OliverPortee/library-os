@@ -4,9 +4,6 @@
 #include "user/raytracer/vec3.h"
 #include "machine/vgascr.h"
 
-// RGB Color with components normalized to [0,1]
-using Color = Vec3;
-
 inline double clamp(double x, double min, double max) {
     if (x < min) return min;
     if (x > max) return max;
