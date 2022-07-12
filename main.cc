@@ -56,12 +56,10 @@ void render() {
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
     const int max_ray_recursion_depth = 50;
-    const int samples_per_pixel = 20;
+    const int samples_per_pixel = 100;
 
-    //Metal mat_left{Color(0.8, 0.8, 0.8)};
-    //Lambertian mat_center{Color(0.7, 0.3, 0.3)};
     Lambertian mat_ground{Color(0.8, 0.8, 0)};
-    Metal mat_right{Color(0.8, 0.6, 0.2)};
+    Metal mat_right{Color(0.8, 0.6, 0.2), 0.5};
     Dielectric mat_dielec{1.45};
 
     Sphere left{Point3(-1, 0, -1), 0.5, &mat_dielec};
