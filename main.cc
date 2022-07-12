@@ -56,7 +56,7 @@ void render() {
     const int img_width = vga_scr.PIXEL_WIDTH;
     const int img_height = vga_scr.PIXEL_HEIGHT;
     const int max_ray_recursion_depth = 50;
-    const int samples_per_pixel = 100;
+    const int samples_per_pixel = 20;
 
     Lambertian mat_ground{Color(0.8, 0.8, 0)};
     Metal mat_right{Color(0.8, 0.6, 0.2), 0.5};
