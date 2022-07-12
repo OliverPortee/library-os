@@ -8,12 +8,12 @@
 #include "syscall/guarded_organizer.h"
 #include "user/appl.h"
 #include "user/raytracer/camera.h"
-#include "user/raytracer/colour.h"
 #include "user/raytracer/hittable_list.h"
 #include "user/raytracer/ray.h"
 #include "user/raytracer/sphere.h"
 #include "user/raytracer/utility.h"
-#include "user/raytracer/vec3.h"
+#include "user/raytracer/colour.h"
+// #include "user/raytracer/material.h"
 
 void test_scr() {
     // step through with gdb
@@ -33,15 +33,18 @@ void test_scr() {
 }
 
 Color ray_color(const Ray& ray, /*const?*/ Hittable& scene, int depth) {
-    HitInfo hit_info;
+    HitInfo hinfo;
 
     if (depth <= 0) return Color(0, 0, 0);
 
-    if (scene.hit(ray, 0.001, INFINITY, hit_info)) {
-        Point3 target = hit_info.point + hit_info.normal + Vec3::random_unit_vec();
-        Ray new_ray = Ray { hit_info.point, target - hit_info.point };
-        return 0.5 * ray_color(new_ray, scene, depth - 1);
-    } 
+    if (scene.hit(ray, 0.001, INFINITY, hinfo)) {
+        Ray scattered;
+        Color attenuation;
+        if (hinfo.material->scatter(ray, hinfo, attenuation, scattered)) {
+            return attenuation * ray_color(scattered, scene, depth - 1);
+        }
+        return Color();
+    }
 
     Vec3 unit_dir = ray.direction.normalized();
     auto t = 0.5 * (unit_dir.y + 1.0);
@@ -55,20 +58,21 @@ void render() {
     const int max_ray_recursion_depth = 50;
     const int samples_per_pixel = 20;
 
+    Lambertian lambertian(Color(1, 0, 0));
+    Metal metal(Color(0, 1, 0));
+
     // scene (list of 3D objects)
     HittableList scene;
-    Sphere s = Sphere(Point3(0.0, 0.0, -1.0), 0.5);
-    Sphere ground = Sphere(Point3(0.0, 100.5, -1.0), 100.0);
+    Sphere s = Sphere(Point3(0.0, 0.0, -1.0), 0.5, &lambertian);
+    Sphere ground = Sphere(Point3(0.0, 100.5, -1.0), 100.0, &metal);
     scene.add(s);
     scene.add(ground);
 
     Camera camera;
 
     // rendering
-    for (int j = img_height-1; j >= 0; --j)
-    {
-        for (int i = 0; i < img_width; ++i)
-        {
+    for (int j = img_height - 1; j >= 0; --j) {
+        for (int i = 0; i < img_width; ++i) {
             Color pixel_color(0, 0, 0);
             for (int n = 0; n < samples_per_pixel; ++n) {
                 auto u = (i + random.random_double()) / (img_width - 1);
@@ -76,7 +80,7 @@ void render() {
                 Ray r = camera.get_ray(u, v);
                 pixel_color += ray_color(r, scene, max_ray_recursion_depth);
             }
-            write_pixel(pixel_color, samples_per_pixel);      
+            write_pixel(pixel_color, samples_per_pixel);
         }
     }
 }
@@ -87,9 +91,9 @@ int main() {
     keyboard.plugin();
     // watch.windup();
 
-    //organizer.Organizer::ready(app);
-    //organizer.Scheduler::schedule();
-    
+    // organizer.Organizer::ready(app);
+    // organizer.Scheduler::schedule();
+
     // test_scr();
     render();
     cpu.halt();

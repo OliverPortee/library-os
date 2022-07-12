@@ -22,6 +22,7 @@ bool Sphere::hit(const Ray& ray, double t_min, double t_max,
     out_hitinfo.point = ray.at(out_hitinfo.t);
     Vec3 outward_normal = (out_hitinfo.point - center) / radius;
     out_hitinfo.set_normal(ray, outward_normal);
+    out_hitinfo.material = material;
 
     return true;
 }

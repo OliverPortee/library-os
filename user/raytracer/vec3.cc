@@ -24,6 +24,8 @@ double sqrt(double d) {
     return a;
 }
 
+#define ABS(x) ((x) < 0 ? -(x) : (x))
+
 Vec3::Vec3(double x, double y, double z) : x{x}, y{y}, z{z} {}
 
 double Vec3::length() const { return sqrt(length_squared()); }
@@ -65,6 +67,15 @@ Vec3& Vec3::operator/=(double d) {
 
 void Vec3::normalize() { operator/=(length()); }
 
+bool Vec3::near_zero() const {
+    const double s = 1e-8;
+    return ABS(x) < s && ABS(y) < s && ABS(z) < s;
+}
+
+Vec3 Vec3::reflect(const Vec3& normal) const {
+    return (*this) - 2 * dot(*this, normal) * normal;
+}
+
 Vec3 random_vec(double min, double max) {
     return Vec3{random.random_double(min, max), random.random_double(min, max),
                 random.random_double(min, max)};
@@ -91,6 +102,10 @@ Vec3 operator*(const Vec3& a, double d) {
 }
 
 Vec3 operator*(double d, const Vec3& a) { return a * d; }
+
+Vec3 operator*(const Vec3& a, const Vec3& b) {
+    return Vec3(a.x * b.x, a.y * b.y, a.z * b.z);
+}
 
 Vec3 operator/(const Vec3& a, double d) {
     assert(d != 0, "operator/: trying to divide by 0");
