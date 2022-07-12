@@ -5,6 +5,7 @@
 #include "ray.h"
 #include "vec3.h"
 #include "hittable.h"
+#include "object/assert.h"
 
 struct HitInfo;
 
@@ -33,18 +34,21 @@ struct Lambertian : Material {
 
 class Metal : public Material {
    public:
-    Metal(const Color& albedo) : albedo(albedo) {}
+    Metal(const Color& albedo, double fuzziness) : albedo(albedo), fuzziness{fuzziness} {
+        assert(fuzziness >= 0 && fuzziness <= 1, "Metal: fuzziness in wrong range");
+    }
 
     virtual bool scatter(const Ray& ray, const HitInfo& hinfo,
                          Color& attenuation, Ray& scattered) const override {
         Vec3 reflected = ray.direction.normalized().reflect(hinfo.normal);
-        scattered = Ray(hinfo.point, reflected);
+        scattered = Ray(hinfo.point, reflected + fuzziness * Vec3::random_length_smaller_1());
         attenuation = albedo;
         return dot(scattered.direction, hinfo.normal) > 0;
     }
 
    public:
     Color albedo;
+    double fuzziness;
 };
 
 class Dielectric : public Material {

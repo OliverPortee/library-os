@@ -60,7 +60,7 @@ void render() {
 
     Lambertian mat_ground{Color(0.8, 0.8, 0)};
     Lambertian mat_center{Color(0.1, 0.2, 0.5)};
-    Metal mat_right{Color(0.8, 0.6, 0.2)};
+    Metal mat_right{Color(0.8, 0.6, 0.2), 0.5};
     Dielectric mat_glass{1.45};
 
     Sphere left{Point3(-1, 0, -1), 0.5, &mat_glass};
