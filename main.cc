@@ -58,9 +58,8 @@ void render() {
     const int max_ray_recursion_depth = 50;
     const int samples_per_pixel = 20;
 
-    //Metal mat_left{Color(0.8, 0.8, 0.8)};
-    Lambertian mat_center{Color(0.1, 0.2, 0.5)};
     Lambertian mat_ground{Color(0.8, 0.8, 0)};
+    Lambertian mat_center{Color(0.1, 0.2, 0.5)};
     Metal mat_right{Color(0.8, 0.6, 0.2)};
     Dielectric mat_glass{1.45};
 
