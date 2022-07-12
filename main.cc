@@ -58,15 +58,21 @@ void render() {
     const int max_ray_recursion_depth = 50;
     const int samples_per_pixel = 20;
 
-    Lambertian lambertian(Color(1, 0, 0));
-    Metal metal(Color(0, 1, 0));
+    Lambertian mat_ground{Color(0.8, 0.8, 0)};
+    Metal mat_left{Color(0.8, 0.8, 0.8)};
+    Lambertian mat_center{Color(0.7, 0.3, 0.3)};
+    Metal mat_right{Color(0.8, 0.6, 0.2)};
 
-    // scene (list of 3D objects)
+    Sphere left{Point3(-1, 0, -1), 0.5, &mat_left};
+    Sphere center{Point3(0, 0, -1), 0.5, &mat_center};
+    Sphere right{Point3(1, 0, -1), 0.5, &mat_right};
+    Sphere ground{Point3(0.0, -100.5, -1.0), 100.0, &mat_ground};
+    
     HittableList scene;
-    Sphere s = Sphere(Point3(0.0, 0.0, -1.0), 0.5, &lambertian);
-    Sphere ground = Sphere(Point3(0.0, 100.5, -1.0), 100.0, &metal);
-    scene.add(s);
     scene.add(ground);
+    scene.add(left);
+    scene.add(center);
+    scene.add(right);
 
     Camera camera;
 
